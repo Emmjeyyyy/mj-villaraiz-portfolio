@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="relative bg-black">
       <Navbar />
-      
+
       <section id="home">
         <Hero />
       </section>
@@ -18,18 +18,18 @@ export default function Home() {
       <section id="about" className="relative z-10 py-40 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           {/* Left: Image Container */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative z-10 w-full aspect-[4/3] border border-white/10 bg-white/[0.02] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+            <div className="relative z-10 w-full aspect-[4/3] border border-white/10 bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
               {/* This is where your image goes. Using the generated placeholder for now. */}
-              <img 
-                src="file:///C:/Users/USER/.gemini/antigravity/brain/b738116b-f177-4221-9f3f-0a51f0c92f9b/profile_placeholder_chrome_1778131933958.png" 
+              <img
+                src="/assets/pfp/skeleton%20chrome.jpg"
                 alt="MJ Villaraiz"
-                className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
+                className="w-full h-full object-contain scale-100 group-hover:scale-120 transition-transform duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
             </div>
@@ -39,43 +39,34 @@ export default function Home() {
           </motion.div>
 
           {/* Right: Info Container */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-start self-start pt-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <span className="text-[10px] font-mono tracking-[0.5em] text-white/30 uppercase mb-6 block">Biography_v1.0</span>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-2">MJ VILLARAIZ</h2>
-              <h3 className="text-xl md:text-2xl font-mono text-white/40 tracking-[0.2em] uppercase mb-12">Full Stack Developer</h3>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-1">MJ VILLARAIZ</h2>
+              <h3 className="text-xl md:text-2xl font-mono text-white/40 tracking-[0.2em] uppercase mb-8">Full Stack Developer</h3>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}
-              className="space-y-8 max-w-lg"
+              className="flex flex-col gap-4 max-w-lg"
             >
-              <div className="flex gap-6 group">
-                <span className="font-mono text-[10px] text-white/20 mt-1">01</span>
-                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
-                  Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for interactive 3D web development.
-                </p>
-              </div>
-
-              <div className="flex gap-6 group">
-                <span className="font-mono text-[10px] text-white/20 mt-1">02</span>
-                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
-                  Creating small game projects and immersive interactive experiences.
-                </p>
-              </div>
-
-              <div className="flex gap-6 group">
-                <span className="font-mono text-[10px] text-white/20 mt-1">03</span>
-                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light italic group-hover:text-white transition-colors">
-                  "I have a habit of turning <span className="not-italic text-white">bugs into features</span>."
-                </p>
-              </div>
+              {[
+                { id: '01', text: <>Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for 3D web development.</> },
+                { id: '02', text: <>Creating small game projects and immersive interactive experiences.</> },
+                { id: '03', text: <span className="italic">"I have a habit of turning <span className="not-italic text-white">bugs into features</span>."</span> }
+              ].map((item) => (
+                <div key={item.id} className="grid grid-cols-[2.5rem_1fr] gap-4 group pb-4 border-b border-white/[0.03] last:border-0">
+                  <span className="font-mono text-[9px] text-white/40 mt-1.5 group-hover:text-white/80 transition-colors">{item.id}</span>
+                  <p className="text-sm md:text-[15px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
@@ -120,13 +111,13 @@ export default function Home() {
             <h3 className="text-2xl font-black tracking-tighter">MJ VILLARAIZ</h3>
             <span className="text-white/20 font-mono text-[9px] mt-2 uppercase tracking-widest">© 2026 Digital Portfolio</span>
           </div>
-          
+
           <div className="flex gap-12 font-mono text-[10px] tracking-widest">
             <a href="#" className="hover:text-white transition-colors text-white/40">LINKEDIN</a>
             <a href="#" className="hover:text-white transition-colors text-white/40">GITHUB</a>
             <a href="#" className="hover:text-white transition-colors text-white/40">TWITTER</a>
           </div>
-          
+
           <div className="hidden md:block text-right font-mono text-[9px] text-white/20 leading-tight">
             SYSTEM_STATUS: ONLINE<br />
             RENDER_ENGINE: NEXT_JS_15

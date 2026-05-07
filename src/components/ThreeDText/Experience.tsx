@@ -161,11 +161,11 @@ function Scene({ text }: { text: string }) {
 
       <group ref={groupRef} position={[-0.25, -0.5, 0]}>
         <Center>
-          {chars.map((char, i) => (
-            <Letter
-              key={i}
-              char={char}
-              position={[offsets[i], 0, 0]}
+          {chars?.map((char, i) => (
+            <Letter 
+              key={i} 
+              char={char} 
+              position={[offsets[i], 0, 0]} 
               index={i}
             />
           ))}
