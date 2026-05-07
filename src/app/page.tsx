@@ -1,131 +1,135 @@
 "use client";
 
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import Projects from "@/components/Projects";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ThreeScene from "@/components/ThreeScene";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const heroRef = useRef(null);
-  const textRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(textRef.current, {
-        y: 100,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power4.out",
-        delay: 0.5,
-      });
-
-      gsap.to(".scroll-indicator", {
-        y: 20,
-        repeat: -1,
-        yoyo: true,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <main ref={heroRef} className="relative min-h-screen bg-[#050505] text-white selection:bg-indigo-500 selection:text-white">
-      {/* Background Three.js Scene */}
-      <div className="fixed inset-0 z-0 opacity-40">
-        <ThreeScene />
-      </div>
+    <main className="relative bg-black">
+      <Navbar />
+      
+      <section id="home">
+        <Hero />
+      </section>
 
-      {/* Hero Section */}
-      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6">
-        <div ref={textRef} className="text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-4 block text-sm font-medium uppercase tracking-[0.3em] text-indigo-400"
+      {/* About Section */}
+      <section id="about" className="relative z-10 py-40 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+          {/* Left: Image Container */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            className="relative"
           >
-            Digital Portfolio 2026
-          </motion.span>
-          <h1 className="mb-8 text-6xl font-bold tracking-tighter md:text-8xl lg:text-9xl">
-            CRAFTING <br />
-            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              EXPERIENCES
-            </span>
-          </h1>
-          <p className="mx-auto max-w-xl text-lg text-zinc-400 md:text-xl">
-            A fusion of design, code, and 3D motion. Built with Next.js, Three.js, and GSAP.
-          </p>
-        </div>
+            <div className="relative z-10 w-full aspect-[4/3] border border-white/10 bg-white/[0.02] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+              {/* This is where your image goes. Using the generated placeholder for now. */}
+              <img 
+                src="file:///C:/Users/USER/.gemini/antigravity/brain/b738116b-f177-4221-9f3f-0a51f0c92f9b/profile_placeholder_chrome_1778131933958.png" 
+                alt="MJ Villaraiz"
+                className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+            </div>
+            {/* Decorative metallic elements */}
+            <div className="absolute -top-4 -left-4 w-20 h-20 border-t border-l border-white/20 z-0" />
+            <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b border-r border-white/20 z-0" />
+          </motion.div>
 
-        <div className="scroll-indicator absolute bottom-12 flex flex-col items-center gap-2">
-          <span className="text-[10px] uppercase tracking-widest text-zinc-500">Scroll</span>
-          <div className="h-12 w-[1px] bg-gradient-to-b from-indigo-500 to-transparent" />
+          {/* Right: Info Container */}
+          <div className="flex flex-col">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="text-[10px] font-mono tracking-[0.5em] text-white/30 uppercase mb-6 block">Biography_v1.0</span>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-2">MJ VILLARAIZ</h2>
+              <h3 className="text-xl md:text-2xl font-mono text-white/40 tracking-[0.2em] uppercase mb-12">Full Stack Developer</h3>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              className="space-y-8 max-w-lg"
+            >
+              <div className="flex gap-6 group">
+                <span className="font-mono text-[10px] text-white/20 mt-1">01</span>
+                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
+                  Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for interactive 3D web development.
+                </p>
+              </div>
+
+              <div className="flex gap-6 group">
+                <span className="font-mono text-[10px] text-white/20 mt-1">02</span>
+                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
+                  Creating small game projects and immersive interactive experiences.
+                </p>
+              </div>
+
+              <div className="flex gap-6 group">
+                <span className="font-mono text-[10px] text-white/20 mt-1">03</span>
+                <p className="text-sm md:text-base text-white/60 leading-relaxed font-light italic group-hover:text-white transition-colors">
+                  "I have a habit of turning <span className="not-italic text-white">bugs into features</span>."
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Content Sections for Scrolling */}
-      <section className="relative z-10 py-32 px-6">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-24">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="group relative"
-            >
-              <h2 className="text-4xl font-bold md:text-6xl mb-6">IMMERSE</h2>
-              <p className="text-xl text-zinc-400 max-w-2xl">
-                High-performance 3D visuals integrated seamlessly into the web. Using React Three Fiber for declarative 3D scenes.
-              </p>
-            </motion.div>
+      <Projects />
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="group relative text-right ml-auto"
-            >
-              <h2 className="text-4xl font-bold md:text-6xl mb-6">ANIMATE</h2>
-              <p className="text-xl text-zinc-400 max-w-2xl ml-auto">
-                Fluid motion and scroll-triggered animations powered by GSAP and Framer Motion for a premium feel.
-              </p>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="group relative"
-            >
-              <h2 className="text-4xl font-bold md:text-6xl mb-6">SMOOTH</h2>
-              <p className="text-xl text-zinc-400 max-w-2xl">
-                Lenis smooth scroll ensures every interaction feels buttery soft and consistent across all browsers.
-              </p>
-            </motion.div>
+      {/* Skills Section */}
+      <section id="skills" className="relative z-10 py-40 px-6 max-w-7xl mx-auto border-t border-white/5">
+        <div className="grid grid-cols-12 gap-12">
+          <div className="col-span-12 lg:col-span-4">
+            <span className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase block mb-4">The Arsenal</span>
+            <h2 className="text-5xl font-black tracking-tighter">SKILLS</h2>
           </div>
+          <div className="col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {['React', 'Next.js', 'Three.js', 'GSAP', 'Tailwind', 'TypeScript', 'Node.js', 'PostgreSQL', 'Figma'].map((skill) => (
+              <div key={skill} className="py-4 border-b border-white/10 flex justify-between items-end group cursor-crosshair">
+                <span className="text-lg font-bold group-hover:chrome-text transition-all">{skill}</span>
+                <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest">Expertise</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Other Section */}
+      <section id="other" className="relative z-10 py-40 px-6 max-w-7xl mx-auto border-t border-white/5">
+        <div className="text-center">
+          <h2 className="text-6xl md:text-9xl font-black tracking-tighter opacity-10 mb-8">CONTACT</h2>
+          <p className="text-xl text-white/60 mb-12">Interested in collaborating? Let's connect.</p>
+          <a href="mailto:hello@mjvillaraiz.com" className="inline-block px-12 py-4 border border-white text-sm font-mono tracking-[0.3em] hover:bg-white hover:text-black transition-all">
+            INITIATE_CONTACT
+          </a>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-24 px-6 border-t border-zinc-900 bg-black">
-        <div className="mx-auto max-w-5xl flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-2xl font-bold italic tracking-tighter">MV.PORTFOLIO</div>
-          <div className="flex gap-8 text-zinc-500 text-sm">
-            <a href="#" className="hover:text-indigo-400 transition-colors">Twitter</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">GitHub</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">LinkedIn</a>
+      <footer className="relative z-10 py-24 px-12 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="text-2xl font-black tracking-tighter">MJ VILLARAIZ</h3>
+            <span className="text-white/20 font-mono text-[9px] mt-2 uppercase tracking-widest">© 2026 Digital Portfolio</span>
           </div>
-          <div className="text-zinc-600 text-sm">
-            © 2026 MJ Villaraiz
+          
+          <div className="flex gap-12 font-mono text-[10px] tracking-widest">
+            <a href="#" className="hover:text-white transition-colors text-white/40">LINKEDIN</a>
+            <a href="#" className="hover:text-white transition-colors text-white/40">GITHUB</a>
+            <a href="#" className="hover:text-white transition-colors text-white/40">TWITTER</a>
+          </div>
+          
+          <div className="hidden md:block text-right font-mono text-[9px] text-white/20 leading-tight">
+            SYSTEM_STATUS: ONLINE<br />
+            RENDER_ENGINE: NEXT_JS_15
           </div>
         </div>
       </footer>

@@ -1,9 +1,10 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, MeshDistortMaterial, Sphere } from "@react-three/drei";
+import { OrbitControls, MeshDistortMaterial, Sphere, AdaptiveEvents, AdaptiveDpr } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
+import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
 
 function AnimatedSphere() {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -15,7 +16,7 @@ function AnimatedSphere() {
   });
 
   return (
-    <Sphere ref={meshRef} args={[1, 100, 100]} scale={1.5}>
+    <Sphere ref={meshRef} args={[1, 64, 64]} scale={1.5}>
       <MeshDistortMaterial
         color="#4338ca"
         attach="material"
@@ -29,11 +30,34 @@ function AnimatedSphere() {
 
 export default function ThreeScene() {
   return (
-    <div className="h-[500px] w-full">
-      <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+    <div className="h-screen w-full">
+      <Canvas 
+        camera={{ position: [0, 0, 5], fov: 75 }} 
+        dpr={[1, 1.5]}
+        gl={{ 
+          antialias: false,
+          powerPreference: "high-performance",
+          alpha: false,
+          stencil: false,
+          depth: true
+        }}
+      >
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <AnimatedSphere />
+        
+        <EffectComposer enableNormalPass={false} multisampling={0}>
+          <Bloom 
+            luminanceThreshold={1} 
+            mipmapBlur 
+            intensity={0.5} 
+            radius={0.3} 
+          />
+          <Vignette eskil={false} offset={0.1} darkness={1.1} />
+        </EffectComposer>
+
+        <AdaptiveEvents />
+        <AdaptiveDpr pixelated />
         <OrbitControls enableZoom={false} />
       </Canvas>
     </div>
