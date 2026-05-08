@@ -3,6 +3,7 @@
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-40 px-6 max-w-7xl mx-auto">
+      <section id="about" className="relative z-10 py-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           {/* Left: Image Container */}
           <motion.div
@@ -24,7 +25,7 @@ export default function Home() {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative z-10 w-full aspect-[4/3] border border-white/10 bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+            <div className="relative z-10 w-full aspect-[3/2] border border-white/10 bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
               {/* This is where your image goes. Using the generated placeholder for now. */}
               <img
                 src="/assets/pfp/skeleton%20chrome.jpg"
@@ -72,11 +73,8 @@ export default function Home() {
         </div>
       </section>
 
-      <Projects />
-
-
       {/* Skills Section */}
-      <section id="skills" className="relative z-10 py-40 px-6 max-w-7xl mx-auto border-t border-white/5">
+      <section id="skills" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
         <div className="grid grid-cols-12 gap-12">
           <div className="col-span-12 lg:col-span-4">
             <span className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase block mb-4">The Arsenal</span>
@@ -93,8 +91,14 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="experience">
+        <Experience />
+      </section>
+
+      <Projects />
+
       {/* Other Section */}
-      <section id="other" className="relative z-10 py-40 px-6 max-w-7xl mx-auto border-t border-white/5">
+      <section id="other" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
         <div className="text-center">
           <h2 className="text-6xl md:text-9xl font-black tracking-tighter opacity-10 mb-8">CONTACT</h2>
           <p className="text-xl text-white/60 mb-12">Interested in collaborating? Let's connect.</p>

@@ -134,7 +134,7 @@ export default function Projects() {
   };
 
   return (
-    <div ref={triggerRef} className="relative h-[2000vh] bg-black">
+    <div id="projects" ref={triggerRef} className="relative h-[600vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
         <div
           ref={sectionRef}
