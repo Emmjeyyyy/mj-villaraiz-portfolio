@@ -4,7 +4,15 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
+import ShaderBorder from "@/components/ShaderBorder";
 import { motion } from "framer-motion";
+import {
+  SiReact, SiVuedotjs, SiTypescript, SiNextdotjs,
+  SiNodedotjs, SiExpress, SiLaravel, SiPostgresql,
+  SiMongodb, SiRedis, SiDocker,
+  SiGithubactions, SiGit, SiFigma
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
 
 export default function Home() {
   return (
@@ -25,15 +33,17 @@ export default function Home() {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative z-10 w-full aspect-[3/2] border border-white/10 bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
-              {/* This is where your image goes. Using the generated placeholder for now. */}
-              <img
-                src="/assets/pfp/skeleton%20chrome.jpg"
-                alt="MJ Villaraiz"
-                className="w-full h-full object-contain scale-100 group-hover:scale-120 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-            </div>
+            <ShaderBorder>
+              <div className="relative z-10 w-full aspect-[3/2] bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+                {/* This is where your image goes. Using the generated placeholder for now. */}
+                <img
+                  src="/assets/pfp/skeleton%20chrome.jpg"
+                  alt="MJ Villaraiz"
+                  className="w-full h-full object-contain scale-100 group-hover:scale-120 transition-transform duration-1000"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+              </div>
+            </ShaderBorder>
             {/* Decorative metallic elements */}
             <div className="absolute -top-4 -left-4 w-20 h-20 border-t border-l border-white/20 z-0" />
             <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b border-r border-white/20 z-0" />
@@ -58,7 +68,7 @@ export default function Home() {
             >
               {[
                 { id: '01', text: <>Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for 3D web development.</> },
-                { id: '02', text: <>Creating small game projects and immersive interactive experiences.</> },
+                { id: '02', text: <>Creating small projects and immersive interactive experiences.</> },
                 { id: '03', text: <span className="italic">"I have a habit of turning <span className="not-italic text-white">bugs into features</span>."</span> }
               ].map((item) => (
                 <div key={item.id} className="grid grid-cols-[2.5rem_1fr] gap-4 group pb-4 border-b border-white/[0.03] last:border-0">
@@ -75,20 +85,41 @@ export default function Home() {
 
       {/* Skills Section */}
       <section id="skills" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
-        <div className="grid grid-cols-12 gap-12">
-          <div className="col-span-12 lg:col-span-4">
-            <span className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase block mb-4">The Arsenal</span>
-            <h2 className="text-5xl font-black tracking-tighter">SKILLS</h2>
-          </div>
-          <div className="col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
-            {['React', 'Next.js', 'Three.js', 'GSAP', 'Tailwind', 'TypeScript', 'Node.js', 'PostgreSQL', 'Figma'].map((skill) => (
-              <div key={skill} className="py-4 border-b border-white/10 flex justify-between items-end group cursor-crosshair">
-                <span className="text-lg font-bold group-hover:chrome-text transition-all">{skill}</span>
-                <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest">Expertise</span>
-              </div>
-            ))}
-          </div>
+        <div className="mb-16">
+          <h2 className="text-5xl font-black tracking-tighter">SKILLS</h2>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+          {[
+            { name: 'React', category: 'frontend', icon: SiReact },
+            { name: 'Vue.js', category: 'frontend', icon: SiVuedotjs },
+            { name: 'TypeScript', category: 'frontend', icon: SiTypescript },
+            { name: 'Next.js', category: 'frontend', icon: SiNextdotjs },
+            { name: 'Node.js', category: 'backend', icon: SiNodedotjs },
+            { name: 'Express', category: 'backend', icon: SiExpress },
+            { name: 'Laravel', category: 'backend', icon: SiLaravel },
+            { name: 'PostgreSQL', category: 'database', icon: SiPostgresql },
+            { name: 'MongoDB', category: 'database', icon: SiMongodb },
+            { name: 'Redis', category: 'database', icon: SiRedis },
+            { name: 'Docker', category: 'devops', icon: SiDocker },
+            { name: 'AWS', category: 'devops', icon: FaAws },
+            { name: 'CI/CD', category: 'devops', icon: SiGithubactions },
+            { name: 'Git', category: 'tools', icon: SiGit },
+            { name: 'Figma', category: 'tools', icon: SiFigma },
+          ].map((skill) => (
+            <div key={skill.name} className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 flex items-center gap-4 hover:bg-white/[0.05] transition-all duration-300">
+              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-black flex-shrink-0">
+                <skill.icon className="text-2xl" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">{skill.name}</h3>
+                <span className="text-xs font-mono text-white/40 uppercase tracking-wider">{skill.category}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+
       </section>
 
       <section id="experience">

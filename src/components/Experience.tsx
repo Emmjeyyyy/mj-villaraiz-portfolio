@@ -17,10 +17,29 @@ const ChevronUp = ({ size = 10 }: { size?: number }) => (
   </svg>
 );
 
+const calculateTotalXp = (experiences: any[]) => {
+  let totalMonths = 0;
+  experiences.forEach(exp => {
+    const parts = exp.period.split(' - ');
+    if (parts.length === 2) {
+      const start = new Date(parts[0]);
+      const endStr = parts[1];
+      const end = (endStr === 'Present' || endStr === 'Ongoing') ? new Date() : new Date(endStr);
+      
+      const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+      totalMonths += months;
+    }
+  });
+  return totalMonths;
+};
+
 export default function Experience() {
   const [expandedId, setExpandedId] = useState<number | null>(1); // Default to your first actual experience
 
-  const totalXp = '3 MOS'; // Total time for your internship
+  const totalMonths = calculateTotalXp(experiences);
+  const totalXp = totalMonths < 12 
+    ? `${totalMonths} months` 
+    : `${(totalMonths / 12).toFixed(1)} yrs`;
 
   return (
     <section className="py-20 px-6 md:px-20 bg-black text-white overflow-hidden selection:bg-white selection:text-black">
@@ -30,11 +49,12 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-24"
+          className="mb-24 flex items-baseline gap-4"
         >
           <h2 className="text-6xl md:text-8xl font-playfair tracking-tighter uppercase">
             Experience
           </h2>
+          <span className="text-xl md:text-2xl font-mono text-white/40 tracking-tighter">{totalXp}</span>
         </motion.div>
 
         <div className="relative border-l border-white/10 ml-4 md:ml-24 pl-10 md:pl-20 space-y-12">
@@ -54,12 +74,12 @@ export default function Experience() {
               
               {/* Year/Period label - Desktop */}
               <div className="absolute -left-[180px] md:-left-[240px] top-1 w-32 text-right hidden md:block">
-                <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.2em] block">{exp.period.split(' - ')[0]}</span>
-                <span className="text-[10px] font-mono text-white/10 uppercase tracking-[0.2em] block">— {exp.period.split(' - ')[1]}</span>
+                <span className="text-[10px] font-mono text-white/70 uppercase tracking-[0.2em] block">{exp.period.split(' - ')[0]}</span>
+                <span className="text-[10px] font-mono text-white/50 uppercase tracking-[0.2em] block">— {exp.period.split(' - ')[1]}</span>
               </div>
 
               {/* Year/Period label - Mobile */}
-              <div className="md:hidden mb-4 opacity-40">
+              <div className="md:hidden mb-4 opacity-80">
                 <span className="text-[10px] font-mono uppercase tracking-[0.2em]">{exp.period}</span>
               </div>
 
@@ -80,11 +100,6 @@ export default function Experience() {
                 <div className="text-white/40 font-mono text-xs uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-white/10" />
                   {exp.company} <span className="opacity-20">/</span> {exp.location}
-                </div>
-
-                <div className="flex items-center gap-3 text-white/20 text-[10px] font-mono uppercase tracking-[0.3em] group-hover:text-white/40 transition-colors group-hover:translate-x-1 duration-300">
-                   {expandedId === exp.id ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
-                   {expandedId === exp.id ? 'collapse' : 'expand'}
                 </div>
 
                 <AnimatePresence initial={false}>
@@ -114,43 +129,17 @@ export default function Experience() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                <div className="flex items-center gap-3 text-white/20 text-[10px] font-mono uppercase tracking-[0.3em] group-hover:text-white/40 transition-colors group-hover:translate-x-1 duration-300 mt-6">
+                   {expandedId === exp.id ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
+                   {expandedId === exp.id ? 'collapse' : 'expand'}
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom XP Summary */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="mt-40 border-t border-white/5 pt-12"
-        >
-           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-             <div className="flex items-center gap-6 w-full md:w-auto flex-1">
-               <span className="text-[10px] font-mono text-white/20 uppercase tracking-[0.5em] flex-shrink-0">total xp</span>
-               <div className="h-[1px] flex-1 bg-white/5 relative overflow-hidden hidden md:block">
-                 <motion.div 
-                   initial={{ width: 0 }}
-                   whileInView={{ width: '100%' }}
-                   viewport={{ once: true }}
-                   transition={{ duration: 2.5, ease: "circOut", delay: 0.8 }}
-                   className="absolute top-0 left-0 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                 />
-                 {/* Current progress indicator as in image */}
-                 <motion.div 
-                   initial={{ width: 0 }}
-                   whileInView={{ width: '15%' }} 
-                   viewport={{ once: true }}
-                   transition={{ duration: 2, ease: "circOut", delay: 1 }}
-                   className="absolute top-0 left-0 h-full bg-white/40 shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                 />
-               </div>
-               <span className="text-xl md:text-2xl font-mono text-white/60 tracking-tighter">{totalXp} yrs</span>
-             </div>
-           </div>
-        </motion.div>
+
       </div>
     </section>
   );
