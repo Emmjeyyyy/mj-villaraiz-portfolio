@@ -26,7 +26,7 @@ export default function Projects() {
   // Read the target X from Lenis scroll position
   useLenis(({ scroll }) => {
     if (isDragging.current) return; // Don't let scroll update targetX if we're dragging (drag updates scroll)
-    
+
     const trigger = triggerRef.current;
     const section = sectionRef.current;
     if (!trigger || !section) return;
@@ -61,7 +61,7 @@ export default function Projects() {
         // Use 1.0 (immediate) during drag, or LERP_FACTOR during scroll
         const factor = isDragging.current ? 1 : LERP_FACTOR;
         currentX.current = lerp(currentX.current, targetX.current, factor);
-        
+
         // Only update DOM if there's a meaningful difference
         if (Math.abs(currentX.current - targetX.current) > 0.01) {
           section.style.transform = `translateX(${currentX.current}px)`;
@@ -82,7 +82,7 @@ export default function Projects() {
     isDragging.current = true;
     startX.current = clientX;
     startScroll.current = lenis.scroll;
-    
+
     if (sectionRef.current) {
       sectionRef.current.style.cursor = 'grabbing';
     }
@@ -96,12 +96,12 @@ export default function Projects() {
     const section = sectionRef.current;
 
     const triggerHeight = trigger.offsetHeight - window.innerHeight;
-    
+
     // Calculate rangeX (same logic as in useLenis)
     const cards = section.getElementsByClassName('project-card');
     const lastCard = cards[cards.length - 1] as HTMLElement;
     let rangeX = section.scrollWidth - window.innerWidth;
-    
+
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
       rangeX = lastCardCenter - window.innerWidth / 2;
@@ -109,13 +109,13 @@ export default function Projects() {
 
     const ratio = triggerHeight / rangeX;
     const scrollDelta = -deltaX * ratio; // Drag left = scroll down
-    
+
     const newScroll = startScroll.current + scrollDelta;
     lenis.scrollTo(newScroll, { immediate: true });
-    
+
     // Also update targetX immediately for better responsiveness during drag
     const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop) / triggerHeight));
-    
+
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
       const finalX = -(lastCardCenter - window.innerWidth / 2);
@@ -134,7 +134,7 @@ export default function Projects() {
   };
 
   return (
-    <div id="projects" ref={triggerRef} className="relative h-[600vh] bg-black">
+    <div id="projects" ref={triggerRef} className="relative h-[1800vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
         <div
           ref={sectionRef}

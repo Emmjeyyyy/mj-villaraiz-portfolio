@@ -69,7 +69,7 @@ export default function Home() {
               {[
                 { id: '01', text: <>Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for 3D web development.</> },
                 { id: '02', text: <>Creating small projects and immersive interactive experiences.</> },
-                { id: '03', text: <span className="italic">"I have a habit of turning <span className="not-italic text-white">bugs into features</span>."</span> }
+                { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
               ].map((item) => (
                 <div key={item.id} className="grid grid-cols-[2.5rem_1fr] gap-4 group pb-4 border-b border-white/[0.03] last:border-0">
                   <span className="font-mono text-[9px] text-white/40 mt-1.5 group-hover:text-white/80 transition-colors">{item.id}</span>
