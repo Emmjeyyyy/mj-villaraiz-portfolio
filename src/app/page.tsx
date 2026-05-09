@@ -129,7 +129,7 @@ export default function Home() {
       <Projects />
 
       {/* Other Section */}
-      <section id="other" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
+      <section id="other" className="relative z-10 pt-24 pb-[50vh] px-6 max-w-7xl mx-auto border-t border-white/5">
         <div className="text-center">
           <h2 className="text-6xl md:text-9xl font-black tracking-tighter opacity-10 mb-8">CONTACT</h2>
           <p className="text-xl text-white/60 mb-12">Interested in collaborating? Let's connect.</p>
