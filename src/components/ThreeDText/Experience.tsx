@@ -102,8 +102,9 @@ function EnvRotation({ y, x = 0 }: { y: number; x?: number }) {
 function Scene({ text }: { text: string }) {
   const chars = text.split('');
   const groupRef = useRef<THREE.Group>(null!);
-  // Fixed scale to ensure consistency between local and production
-  const scale = 1;
+  const { viewport } = useThree();
+  // Responsive scale with a safe cap to prevent it from getting too huge
+  const scale = Math.min(viewport.width / 10, 1.3);
 
   // Custom spacing map for EMMJEYYYY to ensure "equal space" visually
   // These offsets are hand-tuned for the Helvetiker Bold font
