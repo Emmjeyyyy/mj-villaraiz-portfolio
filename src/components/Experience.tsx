@@ -7,13 +7,13 @@ import { experiences } from '@/data/experience';
 // Inline SVG components to avoid extra dependencies
 const ChevronDown = ({ size = 10 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m6 9 6 6 6-6"/>
+    <path d="m6 9 6 6 6-6" />
   </svg>
 );
 
 const ChevronUp = ({ size = 10 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m18 15-6-6-6 6"/>
+    <path d="m18 15-6-6-6 6" />
   </svg>
 );
 
@@ -25,7 +25,7 @@ const calculateTotalXp = (experiences: any[]) => {
       const start = new Date(parts[0]);
       const endStr = parts[1];
       const end = (endStr === 'Present' || endStr === 'Ongoing') ? new Date() : new Date(endStr);
-      
+
       const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
       totalMonths += months;
     }
@@ -37,30 +37,33 @@ export default function Experience() {
   const [expandedId, setExpandedId] = useState<number | null>(1); // Default to your first actual experience
 
   const totalMonths = calculateTotalXp(experiences);
-  const totalXp = totalMonths < 12 
-    ? `${totalMonths} months` 
+  const totalXp = totalMonths < 12
+    ? `${totalMonths} months`
     : `${(totalMonths / 12).toFixed(1)} yrs`;
 
   return (
-    <section className="py-20 px-6 md:px-20 bg-black text-white overflow-hidden selection:bg-white selection:text-black">
-      <div className="max-w-4xl mx-auto">
-        <motion.div 
+    <section className="py-20 bg-black text-white overflow-hidden selection:bg-white selection:text-black">
+      <div className="max-w-7xl mx-auto px-6 mb-24">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-24 flex items-baseline gap-4"
+          className="flex items-baseline gap-4"
         >
           <h2 className="text-6xl md:text-8xl font-playfair tracking-tighter uppercase">
             Experience
           </h2>
           <span className="text-xl md:text-2xl font-mono text-white/40 tracking-tighter">{totalXp}</span>
         </motion.div>
+      </div>
 
-        <div className="relative border-l border-white/10 ml-4 md:ml-24 pl-10 md:pl-20 space-y-12">
+      <div className="px-6 md:px-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative border-l border-white/10 ml-4 md:ml-24 pl-10 md:pl-20 space-y-12">
           {experiences.map((exp, index) => (
-            <motion.div 
-              key={exp.id} 
+            <motion.div
+              key={exp.id}
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -68,14 +71,16 @@ export default function Experience() {
               className="relative"
             >
               {/* Timeline dot */}
-              <div 
+              <div
                 className={`absolute -left-[49px] md:-left-[89px] top-2 w-4 h-4 rounded-full border-2 border-white/20 bg-black z-10 transition-all duration-500 ${expandedId === exp.id ? 'bg-white border-white scale-110 shadow-[0_0_15px_rgba(255,255,255,0.5)]' : ''}`}
               />
-              
+
               {/* Year/Period label - Desktop */}
-              <div className="absolute -left-[180px] md:-left-[240px] top-1 w-32 text-right hidden md:block">
-                <span className="text-[10px] font-mono text-white/70 uppercase tracking-[0.2em] block">{exp.period.split(' - ')[0]}</span>
-                <span className="text-[10px] font-mono text-white/50 uppercase tracking-[0.2em] block">— {exp.period.split(' - ')[1]}</span>
+              <div className="absolute -left-[110px] top-[2px] w-max text-right hidden md:block flex flex-row items-center justify-end h-4 whitespace-nowrap transform -translate-x-full">
+                <span className="text-[10px] font-mono text-white/70 uppercase tracking-[0.2em]">{exp.period.split(' - ')[0]}</span>
+                {exp.period.includes(' - ') && (
+                  <span className="text-[10px] font-mono text-white/70 uppercase tracking-[0.2em]"> — {exp.period.split(' - ')[1]}</span>
+                )}
               </div>
 
               {/* Year/Period label - Mobile */}
@@ -84,8 +89,8 @@ export default function Experience() {
               </div>
 
               {/* Experience Card */}
-              <div 
-                className={`group border border-white/5 rounded-2xl p-6 md:p-8 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-500 cursor-pointer overflow-hidden ${expandedId === exp.id ? 'border-white/20 bg-white/[0.05]' : ''}`}
+              <div
+                className={`group border border-white/5 rounded-2xl p-6 md:p-8 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-500 cursor-pointer overflow-hidden ${expandedId === exp.id ? 'border-white/20 bg-white/[0.05]' : ''}`}
                 onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
@@ -96,7 +101,7 @@ export default function Experience() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="text-white/40 font-mono text-xs uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-white/10" />
                   {exp.company} <span className="opacity-20">/</span> {exp.location}
@@ -109,16 +114,17 @@ export default function Experience() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ overflow: 'hidden' }}
                     >
                       <div className="pt-10 space-y-8">
                         <p className="text-white/60 text-lg md:text-xl leading-relaxed max-w-2xl font-light">
                           {exp.description}
                         </p>
-                        
+
                         <div className="flex flex-wrap gap-2 pt-4">
                           {exp.tech.map((tech) => (
-                            <span 
-                              key={tech} 
+                            <span
+                              key={tech}
                               className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-md text-[10px] font-mono text-white/30 uppercase tracking-tighter hover:bg-white/10 hover:text-white/60 transition-colors"
                             >
                               {tech}
@@ -131,16 +137,15 @@ export default function Experience() {
                 </AnimatePresence>
 
                 <div className="flex items-center gap-3 text-white/20 text-[10px] font-mono uppercase tracking-[0.3em] group-hover:text-white/40 transition-colors group-hover:translate-x-1 duration-300 mt-6">
-                   {expandedId === exp.id ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
-                   {expandedId === exp.id ? 'collapse' : 'expand'}
+                  {expandedId === exp.id ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
+                  {expandedId === exp.id ? 'collapse' : 'expand'}
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
-
-
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

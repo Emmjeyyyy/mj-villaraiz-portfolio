@@ -306,7 +306,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
       <div className="mb-16">
-        <h2 className="text-5xl font-black tracking-tighter">SKILLS & TOOLS</h2>
+        <h2 className="text-5xl font-black tracking-tighter" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>SKILLS & TOOLS</h2>
       </div>
 
       <div className="flex flex-col border-t border-white/5">

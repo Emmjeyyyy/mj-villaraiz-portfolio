@@ -12,12 +12,42 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: 1,
-    role: "Full Stack Developer",
+    role: "Full-Stack Developer Intern",
     company: "Infinity Hub Digital Marketing",
     location: "Davao, PH",
-    period: "February 2026 - May 2026",
+    period: "Feb 2026 - May 2026",
     type: "Internship",
     description: "Developed and enhanced enterprise web application modules using React, Laravel, and PHP, focusing on frontend redesigns, backend integrations, workflow automation, medical record management, and improving overall system usability during a full-stack development internship.",
     tech: ["React", "Node.js", "Laravel", "PHP"]
+  },
+  {
+    id: 2,
+    role: "Participant",
+    company: "CODECHUM PROGRAMMING CHALLENGE 2024",
+    location: "",
+    period: "Nov 2024",
+    type: "Contest",
+    description: "Participated in the CodeChum Programming Challenge.",
+    tech: []
+  },
+  {
+    id: 3,
+    role: "Participant",
+    company: "MCITS | Programming Contest | PSITE 2024",
+    location: "",
+    period: "May 2024",
+    type: "Contest",
+    description: "Participated in the MCITS Programming Contest.",
+    tech: []
+  },
+  {
+    id: 4,
+    role: "Participant",
+    company: "MCITS | Programming Contest | PSITE 2023",
+    location: "",
+    period: "May 2023",
+    type: "Contest",
+    description: "Participated in the MCITS Programming Contest.",
+    tech: []
   }
 ];
