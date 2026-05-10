@@ -190,6 +190,7 @@ export default function Experience({ text = "EMMJEYYYY" }) {
       <Canvas
         camera={{ position: [0, 0, 12], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
       >
         <Suspense fallback={
           <Html center>

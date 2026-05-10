@@ -27,7 +27,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-black">
+    <section ref={containerRef} className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-black">
       {/* 3D Text Background Layer */}
       <div className="absolute inset-0 z-0 w-full h-full bg-black">
         <ThreeDExperience text="EMMJEYYYY" />
