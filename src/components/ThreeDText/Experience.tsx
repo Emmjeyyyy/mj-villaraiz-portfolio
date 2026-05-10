@@ -102,6 +102,9 @@ function EnvRotation({ y, x = 0 }: { y: number; x?: number }) {
 function Scene({ text }: { text: string }) {
   const chars = text.split('');
   const groupRef = useRef<THREE.Group>(null!);
+  const { viewport } = useThree();
+  // Cap the scale at 1.0 to prevent it from getting too huge on large screens
+  const scale = Math.min(viewport.width / 12, 0.9);
 
   // Custom spacing map for EMMJEYYYY to ensure "equal space" visually
   // These offsets are hand-tuned for the Helvetiker Bold font
@@ -158,7 +161,7 @@ function Scene({ text }: { text: string }) {
       <pointLight position={[10, 10, 10]} intensity={1.0} color="#ffffff" />
       <pointLight position={[-5, 2, 5]} intensity={4.0} color="#ffffff" />
 
-      <group ref={groupRef} position={[-0.25, -0.5, 0]}>
+      <group ref={groupRef} position={[-0.25, -0.3, 0]} scale={[scale, scale, scale]}>
         <Center>
           {chars?.map((char, i) => (
             <Letter
