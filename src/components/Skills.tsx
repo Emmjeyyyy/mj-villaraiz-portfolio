@@ -189,7 +189,7 @@ const PhaserIcon = (props: React.SVGProps<SVGSVGElement>) => {
     <img
       src="/assets/svg%20icons/phaserio-ar21.svg"
       alt="Phaser"
-      style={{ ...style, width: '2.5em', height: '1.5em', marginRight: '-0.5em' }}
+      style={{ ...style, width: '2.3em', height: '1.5em', marginRight: '-0.7em', marginLeft: '-0.6em' }}
       className={`object-contain ${className || ''}`}
       {...rest}
     />
