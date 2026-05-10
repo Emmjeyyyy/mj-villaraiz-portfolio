@@ -7,7 +7,6 @@ import {
   Text3D,
   Center,
   Environment,
-  OrbitControls,
   Html,
 } from '@react-three/drei';
 
@@ -196,7 +195,6 @@ export default function Experience({ text = "EMMJEYYYY" }) {
           </Html>
         }>
           <Scene text={text} />
-          <OrbitControls enableZoom={false} enablePan={false} />
         </Suspense>
       </Canvas>
     </div>
