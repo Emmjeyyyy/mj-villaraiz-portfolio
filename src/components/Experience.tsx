@@ -126,7 +126,7 @@ export default function Experience() {
 
                   <div className="text-white/40 font-mono text-xs uppercase tracking-[0.2em] pb-8 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-white/10" />
-                    {exp.company} <span className="opacity-20">/</span> {exp.location}
+                    {exp.company} {exp.location && <><span className="opacity-20">/</span> {exp.location}</>}
                   </div>
 
                   <AnimatePresence initial={false}>

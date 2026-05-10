@@ -17,8 +17,8 @@ export const experiences: Experience[] = [
     location: "Davao, PH",
     period: "Feb 2026 - May 2026",
     type: "Internship",
-    description: "Developed and enhanced enterprise web application modules using React, Laravel, and PHP, focusing on frontend redesigns, backend integrations, workflow automation, medical record management, and improving overall system usability during a full-stack development internship.",
-    tech: ["React", "Node.js", "Laravel", "PHP"]
+    description: "Developed and enhanced enterprise web application modules, specifically the Pre-Employment Medical Examination (PEME) module for the ManPro HR Management System. Focused on building robust backend integrations, dynamic UI redesigns, and automated workflows to handle sensitive medical record management while maintaining a high standard of usability.",
+    tech: ["React", "MUI", "Node.js", "Laravel", "PHP"]
   },
   {
     id: 2,
