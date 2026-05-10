@@ -6,13 +6,7 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import ShaderBorder from "@/components/ShaderBorder";
 import { motion } from "framer-motion";
-import {
-  SiReact, SiVuedotjs, SiTypescript, SiNextdotjs,
-  SiNodedotjs, SiExpress, SiLaravel, SiPostgresql,
-  SiMongodb, SiRedis, SiDocker,
-  SiGithubactions, SiGit, SiFigma
-} from 'react-icons/si';
-import { FaAws } from 'react-icons/fa';
+import Skills from "@/components/Skills";
 
 export default function Home() {
   return (
@@ -24,7 +18,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-24 px-6 max-w-7xl mx-auto">
+      <section id="about" className="relative z-10 py-24 px-6 max-w-7xl mx-auto scroll-mt-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           {/* Left: Image Container */}
           <motion.div
@@ -38,7 +32,7 @@ export default function Home() {
                 {/* This is where your image goes. Using the generated placeholder for now. */}
                 <img
                   src="/assets/pfp/skeleton%20chrome.jpg"
-                  alt="MJ Villaraiz"
+                  alt="MJ VINZ CARLOS VILLARAIZ"
                   className="w-full h-full object-contain scale-100 group-hover:scale-120 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
@@ -56,8 +50,13 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-1">MJ VILLARAIZ</h2>
-              <h3 className="text-xl md:text-2xl font-mono text-white/40 tracking-[0.2em] uppercase mb-8">Full Stack Developer</h3>
+              <h2 className="font-bold mb-1 leading-none">
+                <span className="text-4xl md:text-6xl -ml-1 md:-ml-1.5" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MJ </span>
+                <span className="text-4xl md:text-6xl " style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>VINZ CARLOS</span>
+                <br />
+                <span className="text-5xl md:text-[95px] font-playfair inline-block -mt-3 md:-mt-4.8 text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to right, #aaa 0%, #aaa 40%, #fff 50%, #aaa 60%, #aaa 100%)', backgroundSize: '200% auto', animation: 'shimmer 6s infinite linear reverse' }}>VILLARAIZ</span>
+              </h2>
+              <h3 className="text-xl md:text-2xl font-mono text-white/40 tracking-[0.2em] uppercase my-6">Full-Stack Developer</h3>
             </motion.div>
 
             <motion.div
@@ -72,7 +71,7 @@ export default function Home() {
                 { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
               ].map((item) => (
                 <div key={item.id} className="grid grid-cols-[2.5rem_1fr] gap-4 group pb-4 border-b border-white/[0.03] last:border-0">
-                  <span className="font-mono text-[9px] text-white/40 mt-1.5 group-hover:text-white/80 transition-colors">{item.id}</span>
+                  <span className="font-mono text-[9px] text-white mt-1.5 transition-colors">{item.id}</span>
                   <p className="text-sm md:text-[15px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
                     {item.text}
                   </p>
@@ -83,44 +82,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="relative z-10 py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
-        <div className="mb-16">
-          <h2 className="text-5xl font-black tracking-tighter">SKILLS</h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
-          {[
-            { name: 'React', category: 'frontend', icon: SiReact },
-            { name: 'Vue.js', category: 'frontend', icon: SiVuedotjs },
-            { name: 'TypeScript', category: 'frontend', icon: SiTypescript },
-            { name: 'Next.js', category: 'frontend', icon: SiNextdotjs },
-            { name: 'Node.js', category: 'backend', icon: SiNodedotjs },
-            { name: 'Express', category: 'backend', icon: SiExpress },
-            { name: 'Laravel', category: 'backend', icon: SiLaravel },
-            { name: 'PostgreSQL', category: 'database', icon: SiPostgresql },
-            { name: 'MongoDB', category: 'database', icon: SiMongodb },
-            { name: 'Redis', category: 'database', icon: SiRedis },
-            { name: 'Docker', category: 'devops', icon: SiDocker },
-            { name: 'AWS', category: 'devops', icon: FaAws },
-            { name: 'CI/CD', category: 'devops', icon: SiGithubactions },
-            { name: 'Git', category: 'tools', icon: SiGit },
-            { name: 'Figma', category: 'tools', icon: SiFigma },
-          ].map((skill) => (
-            <div key={skill.name} className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 flex items-center gap-4 hover:bg-white/[0.05] transition-all duration-300">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-black flex-shrink-0">
-                <skill.icon className="text-2xl" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white">{skill.name}</h3>
-                <span className="text-xs font-mono text-white/40 uppercase tracking-wider">{skill.category}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-
-      </section>
+      <Skills />
 
       <section id="experience">
         <Experience />
@@ -143,7 +105,10 @@ export default function Home() {
       <footer className="relative z-10 py-24 px-12 border-t border-white/5 bg-black">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-2xl font-black tracking-tighter">MJ VILLARAIZ</h3>
+            <h3 className="text-2xl font-black tracking-tighter">
+              <span style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MJ </span>
+              <span>VINZ CARLOS VILLARAIZ</span>
+            </h3>
             <span className="text-white/20 font-mono text-[9px] mt-2 uppercase tracking-widest">© 2026 Digital Portfolio</span>
           </div>
 

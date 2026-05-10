@@ -35,7 +35,8 @@ export default function Projects() {
     const triggerHeight = trigger.offsetHeight - window.innerHeight;
     const scrolled = scroll - triggerTop;
 
-    const progress = Math.max(0, Math.min(1, scrolled / triggerHeight));
+    const delay = window.innerHeight * 0.5;
+    const progress = Math.max(0, Math.min(1, (scrolled - delay) / (triggerHeight - delay)));
 
     // Find the project cards inside the section
     const cards = section.getElementsByClassName('project-card');
@@ -114,7 +115,8 @@ export default function Projects() {
     lenis.scrollTo(newScroll, { immediate: true });
 
     // Also update targetX immediately for better responsiveness during drag
-    const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop) / triggerHeight));
+    const delay = window.innerHeight * 0.5;
+    const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop - delay) / (triggerHeight - delay)));
 
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
@@ -138,7 +140,7 @@ export default function Projects() {
       <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
         <div
           ref={sectionRef}
-          className="h-full flex flex-row items-center px-[10vw] w-fit will-change-transform cursor-grab active:cursor-grabbing transition-colors duration-300"
+          className="h-full flex flex-row items-center w-fit will-change-transform cursor-grab active:cursor-grabbing transition-colors duration-300"
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
           onMouseUp={handleDragEnd}
@@ -148,10 +150,8 @@ export default function Projects() {
           onTouchEnd={handleDragEnd}
         >
           {/* Header Card */}
-          <div className="w-[80vw] md:w-[60vw] flex-shrink-0 flex flex-col justify-center pr-20 pointer-events-none select-none">
-            <h2 className="text-[10vw] font-black tracking-tighter leading-none m-0">MY<br /><span className="text-white/20">PROJECTS</span></h2>
-            <div className="flex items-center gap-4 mt-12">
-            </div>
+          <div className="w-[100vw] flex-shrink-0 flex flex-col justify-center items-center pointer-events-none select-none">
+            <h2 className="text-[10vw] font-black tracking-tight leading-none m-0 text-center" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MY<br /><span className="text-white/20">PROJECTS</span></h2>
           </div>
 
           {/* Project Cards */}
@@ -174,7 +174,7 @@ export default function Projects() {
                   <div className="w-6 h-[1px] bg-white/20" />
                   <span className="font-mono text-[10px] text-white/20 uppercase tracking-widest">{project.tag}</span>
                 </div>
-                <h3 className="text-5xl md:text-7xl font-black tracking-tighter transition-all duration-500 uppercase">{project.title}</h3>
+                <h3 className="text-5xl md:text-7xl font-black tracking-tight transition-all duration-500 uppercase">{project.title}</h3>
               </div>
             </div>
           ))}

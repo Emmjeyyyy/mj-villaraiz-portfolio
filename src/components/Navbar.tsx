@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLenis } from 'lenis/react';
 
 const navLinks = [
   { name: 'HOME', href: '#home' },
@@ -15,6 +16,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +30,12 @@ export default function Navbar() {
     e.preventDefault();
     const targetId = href.replace('#', '');
     const elem = document.getElementById(targetId);
-    elem?.scrollIntoView({ behavior: 'smooth' });
+    
+    if (elem && lenis) {
+      lenis.scrollTo(elem, { offset: 0, duration: 1.2 });
+    } else {
+      elem?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
