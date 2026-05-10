@@ -104,7 +104,7 @@ function Scene({ text }: { text: string }) {
   const groupRef = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
   // Responsive scale with a safe cap to prevent it from getting too huge
-  const scale = Math.min(viewport.width / 10, 1.3);
+  const scale = Math.min(viewport.width / 10, 1.7);
 
   // Custom spacing map for EMMJEYYYY to ensure "equal space" visually
   // These offsets are hand-tuned for the Helvetiker Bold font
@@ -161,7 +161,7 @@ function Scene({ text }: { text: string }) {
       <pointLight position={[10, 10, 10]} intensity={1.0} color="#ffffff" />
       <pointLight position={[-5, 2, 5]} intensity={4.0} color="#ffffff" />
 
-      <group ref={groupRef} position={[-0.25, -0.3, 0]} scale={[scale, scale, scale]}>
+      <group ref={groupRef} position={[0.3, -0.1, 0]} scale={[scale, scale, scale]}>
         <Center>
           {chars?.map((char, i) => (
             <Letter
