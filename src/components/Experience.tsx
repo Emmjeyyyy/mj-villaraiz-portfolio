@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { experiences } from '@/data/experience';
 import { useLenis } from 'lenis/react';
@@ -37,7 +37,6 @@ const calculateTotalXp = (experiences: any[]) => {
 export default function Experience() {
   const [expandedId, setExpandedId] = useState<number | null>(1); // Default to your first actual experience
   const lenis = useLenis();
-
   useEffect(() => {
     if (expandedId && lenis) {
       const timer = setTimeout(() => {
@@ -46,7 +45,10 @@ export default function Experience() {
           const rect = elem.getBoundingClientRect();
           const isFullyVisible = rect.top >= 80 && rect.bottom <= window.innerHeight;
           
-          if (!isFullyVisible) {
+          // Only scroll if not already fully visible AND we are not at the very top of the page (prevents auto-scroll on load)
+          const isAtTop = window.scrollY < 100;
+          
+          if (!isFullyVisible && !isAtTop) {
             lenis.scrollTo(elem, { offset: -80, duration: 0 });
           }
         }
