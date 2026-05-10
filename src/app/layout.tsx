@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "MJ VINZ CARLOS VILLARAIZ | Creative Developer Portfolio",
+  title: "MJ Villaraiz",
   description: "A showcase of creative development, 3D experiences, and modern web applications by MJ VINZ CARLOS VILLARAIZ.",
 };
 
