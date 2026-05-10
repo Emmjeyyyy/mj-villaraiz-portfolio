@@ -33,21 +33,21 @@ function Letter({ char, position, index }: { char: string, position: [number, nu
     gsap.to(meshRef.current.rotation, {
       x: 0,
       duration: 1.2,
-      delay: index * 0.1,
+      delay: 2.2 + index * 0.1,
       ease: "power4.out"
     });
 
     gsap.to(meshRef.current.position, {
       z: 0,
       duration: 1.2,
-      delay: index * 0.1,
+      delay: 2.2 + index * 0.1,
       ease: "power4.out"
     });
 
     gsap.to(meshRef.current.scale, {
       x: 1, y: 1, z: 1,
       duration: 0.8,
-      delay: index * 0.1,
+      delay: 2.2 + index * 0.1,
       ease: "back.out(1.7)",
       onComplete: () => setIntroFinished(true)
     });
@@ -57,8 +57,8 @@ function Letter({ char, position, index }: { char: string, position: [number, nu
     if (!meshRef.current || !introFinished) return;
 
     // Only follow cursor after intro is done
-    const targetRotationX = -mouse.y * 0.15;
-    const targetRotationY = mouse.x * 0.15;
+    const targetRotationX = -mouse.y * 0.12;
+    const targetRotationY = mouse.x * 0.12;
 
     meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, targetRotationX, 0.1);
     meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, targetRotationY, 0.1);
@@ -82,7 +82,7 @@ function Letter({ char, position, index }: { char: string, position: [number, nu
       <meshPhysicalMaterial
         color="#ffffff"
         metalness={1}
-        roughness={0.17}
+        roughness={0.32}
         reflectivity={1}
         clearcoat={1}
       />
@@ -115,7 +115,7 @@ function Scene({ text }: { text: string }) {
     chars.forEach((char, i) => {
       pos.push(currentX);
       if (char === 'M') currentX += 1.05;
-      else if (char === 'J') currentX += 0.8; // Calibrated for size 0.9
+      else if (char === 'J') currentX += 0.7; // Calibrated for size 0.9
       else if (char === 'E') currentX += 0.8;
       else currentX += 0.85;
     });
@@ -142,10 +142,10 @@ function Scene({ text }: { text: string }) {
       y: 2,
       ease: "power2.inOut"
     })
-    .to(groupRef.current.rotation, {
-      x: -0.4,
-      ease: "power2.inOut"
-    }, 0);
+      .to(groupRef.current.rotation, {
+        x: -0.4,
+        ease: "power2.inOut"
+      }, 0);
 
     return () => {
       tl.kill();
@@ -155,17 +155,17 @@ function Scene({ text }: { text: string }) {
 
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} color="#ffffff" />
-      <pointLight position={[-10, -10, -10]} intensity={1} color="#ffffff" />
+      <ambientLight intensity={0.4} />
+      <pointLight position={[10, 10, 10]} intensity={1.0} color="#ffffff" />
+      <pointLight position={[-5, 2, 5]} intensity={4.0} color="#ffffff" />
 
       <group ref={groupRef} position={[-0.25, -0.5, 0]}>
         <Center>
           {chars?.map((char, i) => (
-            <Letter 
-              key={i} 
-              char={char} 
-              position={[offsets[i], 0, 0]} 
+            <Letter
+              key={i}
+              char={char}
+              position={[offsets[i], 0, 0]}
               index={i}
             />
           ))}
@@ -173,7 +173,7 @@ function Scene({ text }: { text: string }) {
       </group>
       {/* apartment, city, dawn, forest, lobby, night, park, studio, sunset, warehouse */}
       <Environment preset="studio" />
-      <EnvRotation y={40.5} x={10.3} />
+      <EnvRotation y={49.5} x={10.3} />
     </>
   );
 }

@@ -27,7 +27,7 @@ export const experiences: Experience[] = [
     location: "",
     period: "Nov 2024",
     type: "Contest",
-    description: "Participated in the CodeChum Programming Challenge.",
+    description: "Participated in the CodeChum Programming Challenge 2024.",
     tech: []
   },
   {
@@ -37,7 +37,7 @@ export const experiences: Experience[] = [
     location: "",
     period: "May 2024",
     type: "Contest",
-    description: "Participated in the MCITS Programming Contest.",
+    description: "Participated in the MCITS Programming Contest 2024.",
     tech: []
   },
   {
@@ -47,7 +47,7 @@ export const experiences: Experience[] = [
     location: "",
     period: "May 2023",
     type: "Contest",
-    description: "Participated in the MCITS Programming Contest.",
+    description: "Participated in the MCITS Programming Contest 2023.",
     tech: []
   }
 ];

@@ -1,16 +1,35 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import ShaderBorder from "@/components/ShaderBorder";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Skills from "@/components/Skills";
+import Loader from "@/components/Loader";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Reset scroll to top on refresh
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Load for at least 2 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <main className="relative bg-black">
+    <>
+      <AnimatePresence>
+        {isLoading && <Loader />}
+      </AnimatePresence>
+      <main className="relative bg-black">
       <Navbar />
 
       <section id="home">
@@ -67,7 +86,7 @@ export default function Home() {
             >
               {[
                 { id: '01', text: <>Learning <span className="text-white">Laravel</span>, <span className="text-white">React</span>, and <span className="text-white">Three.js</span> for 3D web development.</> },
-                { id: '02', text: <>Creating small projects and immersive interactive experiences.</> },
+                { id: '02', text: <>Creating <span className="not-italic text-white">small projects</span> and <span className="not-italic text-white">immersive interactive</span> experiences.</> },
                 { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
               ].map((item) => (
                 <div key={item.id} className="grid grid-cols-[2.5rem_1fr] gap-4 group pb-4 border-b border-white/[0.03] last:border-0">
@@ -125,5 +144,6 @@ export default function Home() {
         </div>
       </footer>
     </main>
+    </>
   );
 }

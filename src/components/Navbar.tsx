@@ -30,7 +30,7 @@ export default function Navbar() {
     e.preventDefault();
     const targetId = href.replace('#', '');
     const elem = document.getElementById(targetId);
-    
+
     if (elem && lenis) {
       lenis.scrollTo(elem, { offset: 0, duration: 1.2 });
     } else {
@@ -47,9 +47,12 @@ export default function Navbar() {
         }`}
     >
       <div className="max-w-7xl mx-auto px-12 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-          <span className="text-sm font-black tracking-tighter">EMMJEYYYY</span>
+        <div className="flex items-center gap-0.5">
+          <img
+            src="/assets/svg%20icons/MJLOGO%20noBG.svg"
+            alt="MJ Logo"
+            className="w-11 h-11 object-contain"
+          />
         </div>
 
         <div className="hidden md:flex items-center gap-12">
