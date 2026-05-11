@@ -12,6 +12,7 @@ import {
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import LogoLoader from '../LogoLoader';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -195,7 +196,7 @@ export default function Experience({ text = "EMMJEYYYY" }) {
       >
         <Suspense fallback={
           <Html center>
-            <span className="text-white font-mono text-[10px] animate-pulse">LOADING_SYSTEM_RESOURCES...</span>
+            <LogoLoader size={40} />
           </Html>
         }>
           <Scene text={text} />
