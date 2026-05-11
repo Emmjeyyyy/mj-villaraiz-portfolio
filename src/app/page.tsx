@@ -13,7 +13,8 @@ import { useProgress } from '@react-three/drei';
 
 export default function Home() {
   const { progress } = useProgress();
-  const [isLoading, setIsLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     // Reset scroll to top on refresh
@@ -23,9 +24,14 @@ export default function Home() {
 
   useEffect(() => {
     if (progress === 100) {
+      // First, stop the pulsing
+      setIsFinished(true);
+      
+      // Then, after a short pause to let the user see the static logo, 
+      // trigger the transition to the navbar
       const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 800); // Slightly longer buffer for a premium feel
+        setShowLoader(false);
+      }, 1000); 
       return () => clearTimeout(timer);
     }
   }, [progress]);
@@ -33,10 +39,10 @@ export default function Home() {
   return (
     <>
       <AnimatePresence>
-        {isLoading && <Loader />}
+        {showLoader && <Loader key="loader" finished={isFinished} />}
       </AnimatePresence>
       <main className="relative bg-black">
-      <Navbar />
+      <Navbar isLoading={showLoader} />
 
       <section id="home">
         <Hero />

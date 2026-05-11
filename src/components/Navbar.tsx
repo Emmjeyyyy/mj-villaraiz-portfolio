@@ -14,7 +14,7 @@ const navLinks = [
 ];
 
 
-export default function Navbar() {
+export default function Navbar({ isLoading }: { isLoading: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const lenis = useLenis();
 
@@ -40,19 +40,26 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'py-4 bg-black/80 backdrop-blur-md' : 'py-8 bg-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-12 flex justify-between items-center">
         <div className="flex items-center gap-0.5">
-          <img
-            src="/assets/svg%20icons/MJLOGO%20noBG.svg"
-            alt="MJ Logo"
-            className="w-11 h-11 object-contain"
-          />
+          {!isLoading && (
+            <motion.img
+              layoutId="main-logo"
+              src="/assets/svg%20icons/MJLOGO%20noBG.svg"
+              alt="MJ Logo"
+              className="w-11 h-11 object-contain"
+              transition={{ 
+                duration: 1.2, 
+                ease: [0.22, 1, 0.36, 1] 
+              }}
+            />
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-12">
