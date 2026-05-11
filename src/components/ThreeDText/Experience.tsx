@@ -104,7 +104,7 @@ function Scene({ text }: { text: string }) {
   const groupRef = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
   // Fixed scale for absolute consistency across environments
-  const scale = 2.0;
+  const scale = 1.8;
 
 
 
@@ -127,7 +127,7 @@ function Scene({ text }: { text: string }) {
 
     // Calculate total width to center manually
     const totalWidth = currentX;
-    return pos.map(p => p - totalWidth / 2 + 0.4); // +0.4 to compensate for the last character's width
+    return pos.map(p => p - totalWidth / 2 + 0.1); // Adjusted +0.1 to move slightly more to the left
   }, [chars]);
 
   useEffect(() => {
@@ -170,7 +170,7 @@ function Scene({ text }: { text: string }) {
           <Letter
             key={i}
             char={char}
-            position={[offsets[i], 0, 0]}
+            position={[offsets[i], -0.3, 0]}
             index={i}
           />
         ))}
