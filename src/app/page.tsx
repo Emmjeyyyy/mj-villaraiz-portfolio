@@ -9,9 +9,12 @@ import ShaderBorder from "@/components/ShaderBorder";
 import { motion, AnimatePresence } from "framer-motion";
 import Skills from "@/components/Skills";
 import Loader from "@/components/Loader";
+import { useLenis } from "lenis/react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+
+  const lenis = useLenis();
 
   useEffect(() => {
     // Reset scroll to top on refresh
@@ -23,6 +26,21 @@ export default function Home() {
     }, 2000); // Load for at least 2 seconds
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+      lenis?.stop();
+    } else {
+      document.body.style.overflow = 'unset';
+      lenis?.start();
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+      lenis?.start();
+    };
+  }, [isLoading, lenis]);
 
   return (
     <>
