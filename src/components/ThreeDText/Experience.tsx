@@ -12,7 +12,6 @@ import {
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import LogoLoader from '../LogoLoader';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -194,11 +193,7 @@ export default function Experience({ text = "EMMJEYYYY" }) {
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
       >
-        <Suspense fallback={
-          <Html center>
-            <LogoLoader size={40} />
-          </Html>
-        }>
+        <Suspense fallback={null}>
           <Scene text={text} />
         </Suspense>
       </Canvas>
