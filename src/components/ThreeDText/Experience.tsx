@@ -103,8 +103,10 @@ function Scene({ text }: { text: string }) {
   const chars = text.split('');
   const groupRef = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
-  // Fixed scale for consistency across environments (local vs deployed)
-  const scale = 1.0;
+  // Fixed scale for absolute consistency across environments
+  const scale = 2.0;
+
+
 
 
   // Custom spacing map for EMMJEYYYY to ensure "equal space" visually
@@ -123,7 +125,9 @@ function Scene({ text }: { text: string }) {
       else currentX += 0.85;
     });
 
-    return pos;
+    // Calculate total width to center manually
+    const totalWidth = currentX;
+    return pos.map(p => p - totalWidth / 2 + 0.4); // +0.4 to compensate for the last character's width
   }, [chars]);
 
   useEffect(() => {
@@ -161,17 +165,15 @@ function Scene({ text }: { text: string }) {
       <pointLight position={[10, 10, 10]} intensity={1.0} color="#ffffff" />
       <pointLight position={[-5, 2, 5]} intensity={4.0} color="#ffffff" />
 
-      <group ref={groupRef} position={[-0.3, -0.3, 0]} scale={[scale, scale, scale]}>
-        <Center>
-          {chars?.map((char, i) => (
-            <Letter
-              key={i}
-              char={char}
-              position={[offsets[i], 0, 0]}
-              index={i}
-            />
-          ))}
-        </Center>
+      <group ref={groupRef} position={[0, 0, 0]} scale={[scale, scale, scale]}>
+        {chars?.map((char, i) => (
+          <Letter
+            key={i}
+            char={char}
+            position={[offsets[i], 0, 0]}
+            index={i}
+          />
+        ))}
       </group>
       {/* apartment, city, dawn, forest, lobby, night, park, studio, sunset, warehouse */}
       <Environment preset="studio" />
