@@ -55,9 +55,9 @@ export default function Navbar({ isLoading }: { isLoading: boolean }) {
               src="/assets/svg%20icons/MJLOGO%20noBG.svg"
               alt="MJ Logo"
               className="w-11 h-11 object-contain"
-              transition={{ 
-                duration: 1.2, 
-                ease: [0.22, 1, 0.36, 1] 
+              transition={{
+                duration: 1.2,
+                ease: [0.22, 1, 0.36, 1]
               }}
             />
           )}
@@ -69,7 +69,7 @@ export default function Navbar({ isLoading }: { isLoading: boolean }) {
               key={link.name}
               href={link.href}
               onClick={(e) => scrollToSection(e, link.href)}
-              className="text-[10px] font-mono tracking-[0.3em] text-white/50 hover:text-white transition-colors relative group"
+              className="text-[12px] font-mono tracking-[0.3em] text-white/50 hover:text-white transition-colors relative group select-none"
             >
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" />
@@ -79,7 +79,7 @@ export default function Navbar({ isLoading }: { isLoading: boolean }) {
 
         <div className="md:hidden">
           {/* Simple mobile menu toggle could go here */}
-          <span className="text-[10px] font-mono text-white/50 underline">MENU</span>
+          <span className="text-[10px] font-mono text-white/50 underline select-none">MENU</span>
         </div>
       </div>
     </motion.nav>
