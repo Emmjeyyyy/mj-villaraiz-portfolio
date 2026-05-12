@@ -63,7 +63,7 @@ export default function Experience() {
     : `${(totalMonths / 12).toFixed(1)} yrs`;
 
   return (
-    <section className="py-20 bg-black text-white overflow-hidden selection:bg-white selection:text-black">
+    <section className="pt-0 pb-20 bg-black text-white overflow-hidden selection:bg-white selection:text-black">
       <div className="max-w-7xl mx-auto px-6 mb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

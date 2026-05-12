@@ -136,7 +136,7 @@ export default function Projects() {
   };
 
   return (
-    <div id="projects" ref={triggerRef} className="relative h-[1800vh] bg-black">
+    <div id="projects" ref={triggerRef} className="relative h-[1800vh] bg-black scroll-mt-0">
       <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
         <div
           ref={sectionRef}
@@ -151,7 +151,7 @@ export default function Projects() {
         >
           {/* Header Card */}
           <div className="w-[100vw] flex-shrink-0 flex flex-col justify-center items-center pointer-events-none select-none">
-            <h2 className="text-[10vw] font-black tracking-tight leading-none m-0 text-center" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MY<br /><span className="text-white/20">PROJECTS</span></h2>
+            <h2 className="text-[10vw] font-black tracking-tight leading-none m-0 text-center" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MY<br /><span className="text-white" style={{ WebkitTextStroke: '4.5px white', color: 'transparent' }}>PROJECTS</span></h2>
           </div>
 
           {/* Project Cards */}

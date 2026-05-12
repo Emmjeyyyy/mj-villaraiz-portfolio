@@ -32,7 +32,8 @@ export default function Navbar({ isLoading }: { isLoading: boolean }) {
     const elem = document.getElementById(targetId);
 
     if (elem && lenis) {
-      lenis.scrollTo(elem, { offset: 0, duration: 1.2 });
+      const offset = (targetId === 'skills' || targetId === 'experience' || targetId === 'projects') ? 0 : -100;
+      lenis.scrollTo(elem, { offset, duration: 1.2 });
     } else {
       elem?.scrollIntoView({ behavior: 'smooth' });
     }
