@@ -5,7 +5,10 @@ import gsap from 'gsap';
 import dynamic from 'next/dynamic';
 
 // Dynamically import the 3D Experience to avoid SSR issues with Three.js
-const ThreeDExperience = dynamic(() => import('./ThreeDText/Experience'), { ssr: false });
+const ThreeDExperience = dynamic(() => import('./ThreeDText/Experience'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-black" />
+});
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);

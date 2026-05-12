@@ -192,9 +192,11 @@ export default function Experience({ text = "EMMJEYYYY" }) {
     <div className="w-full h-full bg-black">
       <Canvas
         camera={{ position: [0, 0, 12], fov: 45 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: true, alpha: false }}
         dpr={[1, 2]}
+        style={{ background: 'black' }}
       >
+        <color attach="background" args={['#000000']} />
         <Suspense fallback={null}>
           <Scene text={text} />
         </Suspense>
