@@ -10,7 +10,7 @@ const ThreeDExperience = dynamic(() => import('./ThreeDText/Experience'), {
   loading: () => <div className="w-full h-full bg-black" />
 });
 
-export default function Hero() {
+export default function Hero({ startAnimation }: { startAnimation: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Hero() {
     <section ref={containerRef} className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-black">
       {/* 3D Text Background Layer */}
       <div className="absolute inset-0 z-0 w-full h-full bg-black">
-        <ThreeDExperience text="EMMJEYYYY" />
+        <ThreeDExperience text="EMMJEYYYY" startAnimation={startAnimation} />
       </div>
 
     </section>

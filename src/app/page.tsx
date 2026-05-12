@@ -14,7 +14,8 @@ import { useProgress } from '@react-three/drei';
 export default function Home() {
   const { progress } = useProgress();
   const [showLoader, setShowLoader] = useState(true);
-  const [isFinished, setIsFinished] = useState(false);
+  const [pulsesDone, setPulsesDone] = useState(false);
+  const [canExit, setCanExit] = useState(false);
 
   useEffect(() => {
     // Reset scroll to top on refresh
@@ -23,29 +24,32 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (progress === 100) {
-      // First, stop the pulsing
-      setIsFinished(true);
-
-      // Then, after a short pause to let the user see the static logo, 
-      // trigger the transition to the navbar
-      const timer = setTimeout(() => {
+    if (progress === 100 && pulsesDone) {
+      // First, trigger the move to navbar
+      const moveTimer = setTimeout(() => {
         setShowLoader(false);
-      }, 1000);
-      return () => clearTimeout(timer);
+        
+        // Then, wait for the logo transition (1.2s) before starting 3D text
+        const animTimer = setTimeout(() => {
+          setCanExit(true);
+        }, 1200);
+        return () => clearTimeout(animTimer);
+      }, 500); 
+      
+      return () => clearTimeout(moveTimer);
     }
-  }, [progress]);
+  }, [progress, pulsesDone]);
 
   return (
     <>
       <AnimatePresence>
-        {showLoader && <Loader key="loader" finished={isFinished} />}
+        {showLoader && <Loader key="loader" onComplete={() => setPulsesDone(true)} />}
       </AnimatePresence>
       <main className="relative bg-black">
         <Navbar isLoading={showLoader} />
 
         <section id="home">
-          <Hero />
+          <Hero startAnimation={canExit} />
         </section>
 
         {/* About Section */}

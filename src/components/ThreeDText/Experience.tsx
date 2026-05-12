@@ -17,40 +17,46 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-function Letter({ char, position, index }: { char: string, position: [number, number, number], index: number }) {
+function Letter({ char, position, index, startAnimation }: { char: string, position: [number, number, number], index: number, startAnimation: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const mouse = useThree((state) => state.mouse);
   const [introFinished, setIntroFinished] = useState(false);
 
   useEffect(() => {
     // Initial state: Laying flat and pushed back
-    meshRef.current.rotation.x = -Math.PI / 2;
-    meshRef.current.position.z = -5;
-    meshRef.current.scale.set(0, 0, 0);
+    if (meshRef.current) {
+      meshRef.current.rotation.x = -Math.PI / 2;
+      meshRef.current.position.z = -5;
+      meshRef.current.scale.set(0, 0, 0);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!startAnimation || !meshRef.current) return;
 
     // Entrance Animation
     gsap.to(meshRef.current.rotation, {
       x: 0,
       duration: 1.2,
-      delay: 2.2 + index * 0.1,
+      delay: index * 0.1, // Reduced delay since loader already handled the wait
       ease: "power4.out"
     });
 
     gsap.to(meshRef.current.position, {
       z: 0,
       duration: 1.2,
-      delay: 2.2 + index * 0.1,
+      delay: index * 0.1,
       ease: "power4.out"
     });
 
     gsap.to(meshRef.current.scale, {
       x: 1, y: 1, z: 1,
       duration: 0.8,
-      delay: 2.2 + index * 0.1,
+      delay: index * 0.1,
       ease: "back.out(1.7)",
       onComplete: () => setIntroFinished(true)
     });
-  }, [index]);
+  }, [index, startAnimation]);
 
   useFrame(() => {
     if (!meshRef.current || !introFinished) return;
@@ -99,7 +105,7 @@ function EnvRotation({ y, x = 0 }: { y: number; x?: number }) {
   return null;
 }
 
-function Scene({ text }: { text: string }) {
+function Scene({ text, startAnimation }: { text: string, startAnimation: boolean }) {
   const chars = text.split('');
   const groupRef = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
@@ -172,6 +178,7 @@ function Scene({ text }: { text: string }) {
             char={char}
             position={[offsets[i], -0.3, 0]}
             index={i}
+            startAnimation={startAnimation}
           />
         ))}
       </group>
@@ -182,7 +189,7 @@ function Scene({ text }: { text: string }) {
   );
 }
 
-export default function Experience({ text = "EMMJEYYYY" }) {
+export default function Experience({ text = "EMMJEYYYY", startAnimation = false }: { text?: string, startAnimation?: boolean }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -190,17 +197,17 @@ export default function Experience({ text = "EMMJEYYYY" }) {
 
   return (
     <div className="w-full h-full bg-black">
-      <Canvas
-        camera={{ position: [0, 0, 12], fov: 45 }}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
-        style={{ background: 'black' }}
-      >
-        <color attach="background" args={['#000000']} />
-        <Suspense fallback={null}>
-          <Scene text={text} />
-        </Suspense>
-      </Canvas>
+      <Suspense fallback={<div className="w-full h-full bg-black" />}>
+        <Canvas
+          camera={{ position: [0, 0, 12], fov: 45 }}
+          gl={{ antialias: true, alpha: false }}
+          dpr={[1, 2]}
+          style={{ background: 'black' }}
+        >
+          <color attach="background" args={['#000000']} />
+          <Scene text={text} startAnimation={startAnimation} />
+        </Canvas>
+      </Suspense>
     </div>
   );
 }

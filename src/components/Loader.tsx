@@ -4,10 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface LoaderProps {
-  finished?: boolean;
+  onComplete: () => void;
 }
 
-export default function Loader({ finished }: LoaderProps) {
+export default function Loader({ onComplete }: LoaderProps) {
 
   return (
     <motion.div
@@ -23,17 +23,20 @@ export default function Loader({ finished }: LoaderProps) {
           alt="Loading..."
           className="w-24 h-24 object-contain"
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={finished ? { 
+          animate={{ 
             opacity: 1, 
-            scale: 1 
-          } : {
-            opacity: [0.5, 1, 0.5],
-            scale: [0.98, 1.02, 0.98]
+            scale: [1, 1.1, 1]
           }}
-          transition={finished ? { duration: 0.5 } : {
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut"
+          transition={{
+            opacity: { duration: 0.5 },
+            scale: {
+              duration: 1.2,
+              repeat: 2,
+              ease: "easeInOut"
+            }
+          }}
+          onAnimationComplete={() => {
+            onComplete();
           }}
         />
       </div>
