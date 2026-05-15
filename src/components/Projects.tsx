@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useLenis } from 'lenis/react';
 import { projects } from '@/data/projects';
 
-const LERP_FACTOR = 0.1; // Higher = more immediate catch-up, less damping
+const LERP_FACTOR = 0.08; // Adjusted for better responsiveness
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -24,18 +24,22 @@ export default function Projects() {
   const startScroll = useRef(0);
 
   // Read the target X from Lenis scroll position
-  useLenis(({ scroll }) => {
-    if (isDragging.current) return; // Don't let scroll update targetX if we're dragging (drag updates scroll)
+  useLenis(() => {
+    if (isDragging.current) return;
 
     const trigger = triggerRef.current;
     const section = sectionRef.current;
     if (!trigger || !section) return;
 
-    const triggerTop = trigger.offsetTop;
+    // Use getBoundingClientRect to get accurate position relative to viewport
+    const rect = trigger.getBoundingClientRect();
     const triggerHeight = trigger.offsetHeight - window.innerHeight;
-    const scrolled = scroll - triggerTop;
 
-    const delay = window.innerHeight * 0.5;
+    // Amount the trigger has scrolled past the top of the viewport
+    const scrolled = -rect.top;
+
+    // Added a slight delay to allow the 'MY PROJECTS' title to breathe
+    const delay = window.innerHeight * 0.3;
     const progress = Math.max(0, Math.min(1, (scrolled - delay) / (triggerHeight - delay)));
 
     // Find the project cards inside the section
@@ -43,9 +47,7 @@ export default function Projects() {
     const lastCard = cards[cards.length - 1] as HTMLElement;
 
     if (lastCard) {
-      // The offset relative to the container plus half its width
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
-      // The amount we need to translate to put that center in the middle of the screen
       const finalX = -(lastCardCenter - window.innerWidth / 2);
       targetX.current = finalX * progress;
     } else {
@@ -136,7 +138,7 @@ export default function Projects() {
   };
 
   return (
-    <div id="projects" ref={triggerRef} className="relative h-[1800vh] bg-black scroll-mt-0">
+    <div id="projects" ref={triggerRef} className="relative h-[1600vh] bg-black scroll-mt-0">
       <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
         <div
           ref={sectionRef}

@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Skills from "@/components/Skills";
 import Loader from "@/components/Loader";
 import { useProgress } from '@react-three/drei';
+import Contact from "@/components/Contact";
 
 export default function Home() {
   const { progress } = useProgress();
@@ -125,16 +126,7 @@ export default function Home() {
 
         <Projects />
 
-        {/* Other Section */}
-        <section id="other" className="relative z-10 pt-24 pb-[50vh] px-6 max-w-7xl mx-auto border-t border-white/5">
-          <div className="text-center">
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter opacity-10 mb-8">CONTACT</h2>
-            <p className="text-xl text-white/60 mb-12">Interested in collaborating? Let's connect.</p>
-            <a href="mailto:hello@mjvillaraiz.com" className="inline-block px-12 py-4 border border-white text-sm font-mono tracking-[0.3em] hover:bg-white hover:text-black transition-all">
-              INITIATE_CONTACT
-            </a>
-          </div>
-        </section>
+        <Contact />
 
         {/* Footer */}
         <footer className="relative z-10 py-24 px-12 border-t border-white/5 bg-black">
@@ -148,9 +140,9 @@ export default function Home() {
             </div>
 
             <div className="flex gap-12 font-mono text-[10px] tracking-widest">
-              <a href="#" className="hover:text-white transition-colors text-white/40">LINKEDIN</a>
-              <a href="#" className="hover:text-white transition-colors text-white/40">GITHUB</a>
-              <a href="#" className="hover:text-white transition-colors text-white/40">TWITTER</a>
+              <a href="https://www.linkedin.com/in/mj-vinz-carlos-villaraiz-01bb60322/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-white/40">LINKEDIN</a>
+              <a href="https://github.com/Emmjeyyyy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-white/40">GITHUB</a>
+              <a href="https://www.instagram.com/emmmmjeyyy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-white/40">INSTAGRAM</a>
             </div>
 
             <div className="hidden md:block text-right font-mono text-[9px] text-white/20 leading-tight">
