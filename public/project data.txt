@@ -118,3 +118,23 @@ DODGE MASTER | A Java-based 2D arcade game focused on wave-based survival and do
 Tech Stack:
 
 Java AWT Swing
+
+
+Dota Terminal | A terminal-themed web application for viewing Dota 2 player statistics and match history.
+
+Tech Stack:
+
+TypeScript React Vite
+
+Tekton | An AI-powered interface for generating high-fidelity user interface components and conceptual design variations based on natural language prompts.
+
+Tech Stack:
+
+TypeScript React Google Gemini Vite
+
+
+Baby Z Invitation | A digital invitation system for managing event guests and real-time RSVP responses.
+
+Tech Stack:
+
+React Firebase Tailwind CSS Vite Framer Motion
