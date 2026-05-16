@@ -1,0 +1,120 @@
+OutcomeX | An NLP-powered desktop application that analyzes the alignment between BSIT course outlines and current industry technical competency requirements.
+
+techstack:
+
+Python
+PyQt6
+Sentence-Transformers
+PyTorch
+HuggingFace Transformers
+Firebase
+Qt-Material
+QtAwesome
+Pandas
+Python-Docx
+PyPDF2
+Matplotlib
+Seaborn
+ReportLab
+
+
+EmmLab | A high-performance UI laboratory and documentation system engineered for the synthesis, real-time previewing, and distribution of futuristic React components.
+
+techstack:
+
+Next.js 14
+TypeScript
+Contentlayer
+Framer Motion
+Shiki (Syntax Highlighting)
+Tailwind CSS
+Fuse.js (Search)
+Lucide React
+Jotai (State Management)
+Lenis (Smooth Scroll)
+
+HUE KAI | A color management tool for generating, analyzing, and exporting harmonic color palettes.
+
+Tech Stack:
+
+Vite
+React
+TypeScript
+Lucide React
+Culori (Color Math)
+jsPDF (Exporting)
+React Router
+Tailwind CSS
+
+SRT GEN EM | AI-powered video transcription and subtitle generation tool.
+
+Tech Stack:
+
+Vite React TypeScript Gemini AI Tailwind CSS JSZip Lucide React
+
+
+svg-printer | Generates custom SVG graphics from natural language prompts using the Google Gemini AI.
+
+Tech Stack:
+React Google Gemini API Tailwind CSS TypeScript Vite Lucide React
+
+
+Kanji Terminal | A terminal-themed application for learning Japanese Kanji through spaced repetition and proficiency exam simulations.
+
+Tech Stack:
+
+React TypeScript Vite Framer Motion Tailwind CSS
+
+
+Kanablitz | A fast-paced web application for learning and practicing Japanese Hiragana and Katakana.
+
+Tech Stack:
+
+React TypeScript Tailwind CSS
+
+
+EMM GitHub Stats | A statistics generator that provides dynamic and customizable SVG cards for GitHub profile READMEs.
+
+Tech Stack:
+
+Next.js TypeScript Tailwind CSS
+
+
+ANIME SERIES DIRECTORY | A platform for browsing anime series and managing personal watchlists with real-time data synchronization.
+
+Tech Stack:
+
+React Firebase TypeScript AniList API Jikan API
+
+
+
+Interdimensional Codex | A comprehensive web encyclopedia for exploring characters, locations, and episodes from the Rick and Morty universe.
+
+Tech Stack:
+
+TypeScript React Vite
+
+
+Web-based save editor for Risk of Rain 2, allowing quick unlocks for survivors and loadouts, with support for all DLCs (Alloyed Collective). This project is inspired from (https://riskofrain2-save-editor.web.app)
+
+Tech Stack:
+
+TypeScript React Tailwind CSS
+
+Tic-Tac-Toe Multiplayer | A real-time multiplayer Tic-Tac-Toe game using web sockets for synchronized gameplay.
+
+Tech Stack:
+
+React Node.js Socket.io
+
+Blood Echoes | A roguelite dungeon crawler game featuring procedural progression and combat mechanics.
+
+Tech Stack:
+
+TypeScript React Vite Tailwind CSS
+
+DODGE MASTER | A Java-based 2D arcade game focused on wave-based survival and dodging enemy patterns, developed during my second year of college.
+
+Tech Stack:
+
+Java AWT Swing

@@ -24,7 +24,7 @@ export const projects: Project[] = [
   {
     id: 3,
     title: "HUE KAI",
-    type: "UI EXPERIMENT",
+    type: "COLOR SUITE PROJECT",
     tag: "Creative",
     url: "https://hue-kai.vercel.app/#/",
   },
@@ -87,44 +87,51 @@ export const projects: Project[] = [
   {
     id: 12,
     title: "TIC TAC TOE",
-    type: "MULTIPLAYER GAME",
+    type: "GAME",
     tag: "Interactive",
     url: "https://tic-tac-toe-mult.vercel.app/",
   },
   {
     id: 13,
     title: "DUNGEON CRAWLER",
-    type: "GAME DEVELOPMENT",
+    type: "GAME",
     tag: "Interactive",
     url: "https://dungeon-crawler-game-eosin.vercel.app/",
   },
   {
     id: 14,
     title: "ROGUELIKE SHOOTER GAME",
-    type: "GAME PROTOTYPE",
+    type: "GAME",
     tag: "Experiment",
     url: "https://test-game-drab.vercel.app/",
+  },
+  {
+    id: 15,
+    title: "DODGE MASTER",
+    type: "GAME",
+    tag: "Interactive",
+    url: "",
   },
 ];
 
 // Projects intentionally hidden from the public gallery
 export const hiddenProjects: Project[] = [
   {
-    id: 15,
+    id: 16,
     title: "DOTA TERMINAL",
     type: "TERMINAL UI",
     tag: "Fan Project",
     url: "https://dota-terminal.vercel.app/",
   },
   {
-    id: 16,
+    id: 17,
     title: "TEKTON",
     type: "DEVELOPER TOOL",
     tag: "Open Source",
     url: "https://github.com/Emmjeyyyy/tekton",
   },
   {
-    id: 17,
+    id: 18,
     title: "BABY Z INVITATION",
     type: "INTERACTIVE INVITE",
     tag: "Creative",
