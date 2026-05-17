@@ -1,14 +1,40 @@
 "use client";
-
 import React, { useRef, useEffect, useState } from 'react';
+import Lenis from 'lenis';
 import { useLenis } from 'lenis/react';
-import { projects } from '@/data/projects';
+import { projects, Project } from '@/data/projects';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { FiX, FiExternalLink, FiGithub } from 'react-icons/fi';
 
 const LERP_FACTOR = 0.08; // Adjusted for better responsiveness
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
+
+const scrollbarStyles = `
+  /* Global and Modal Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Firefox support */
+  html, .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+`;
 
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -85,10 +111,6 @@ export default function Projects() {
     isDragging.current = true;
     startX.current = clientX;
     startScroll.current = lenis.scroll;
-
-    if (sectionRef.current) {
-      sectionRef.current.style.cursor = 'grabbing';
-    }
   };
 
   const handleDragMove = (clientX: number) => {
@@ -132,17 +154,132 @@ export default function Projects() {
 
   const handleDragEnd = () => {
     isDragging.current = false;
-    if (sectionRef.current) {
-      sectionRef.current.style.cursor = 'grab';
-    }
+  };
+
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isMouseInProjectSection, setIsMouseInProjectSection] = useState(false);
+  const modalContentRef = useRef<HTMLDivElement>(null);
+
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  const springConfig = { damping: 25, stiffness: 250 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [cursorX, cursorY]);
+
+  // Local Lenis for Modal
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    let localLenis: Lenis | null = null;
+    let rafId: number;
+
+    const timeout = setTimeout(() => {
+      if (!modalContentRef.current) return;
+
+      localLenis = new Lenis({
+        wrapper: modalContentRef.current,
+        lerp: 0.1,
+        duration: 1.2,
+        syncTouch: true,
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        localLenis?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
+    }, 200); // Increased timeout for stability
+
+    return () => {
+      clearTimeout(timeout);
+      if (localLenis) {
+        localLenis.destroy();
+      }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [selectedProject]);
+
+  const handleCardClick = (project: Project) => {
+    setSelectedProject(project);
+    setHoveredProject(null); // Clear hover state on click
+    lenis?.stop();
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setSelectedProject(null);
+    lenis?.start();
+    document.body.style.overflow = 'unset';
   };
 
   return (
-    <div id="projects" ref={triggerRef} className="relative h-[1600vh] bg-black scroll-mt-0">
-      <div className="sticky top-0 h-screen overflow-hidden border-t border-white/5">
+    <div
+      id="projects"
+      ref={triggerRef}
+      className="relative h-[3500vh] bg-black scroll-mt-0 overflow-visible"
+      onMouseEnter={() => setIsMouseInProjectSection(true)}
+      onMouseMove={() => !isMouseInProjectSection && setIsMouseInProjectSection(true)}
+      onMouseLeave={() => setIsMouseInProjectSection(false)}
+    >
+      <style dangerouslySetInnerHTML={{ __html: scrollbarStyles }} />
+      {/* Custom Cursor */}
+      <motion.div
+        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] flex items-center justify-center mix-blend-difference"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: "-50%",
+          translateY: "-50%",
+        }}
+        animate={{
+          width: hoveredProject ? 90 : 12,
+          height: hoveredProject ? 90 : 12,
+          opacity: isMouseInProjectSection && !selectedProject ? 1 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 250, damping: 25 }}
+      >
+        <AnimatePresence>
+          {hoveredProject && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="text-black text-[12px] font-bold uppercase tracking-widest"
+              style={{ mixBlendMode: 'normal' }}
+            >
+              View
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      <motion.div
+        className="sticky top-0 h-screen overflow-hidden border-t border-white/5"
+        animate={{
+          opacity: selectedProject ? 0.3 : 1,
+          scale: selectedProject ? 0.95 : 1,
+          filter: selectedProject ? 'blur(10px)' : 'blur(0px)'
+        }}
+        transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
+      >
         <div
           ref={sectionRef}
-          className="h-full flex flex-row items-center w-fit will-change-transform cursor-grab active:cursor-grabbing transition-colors duration-300"
+          className="h-full flex flex-row items-center w-fit will-change-transform transition-colors duration-300"
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
           onMouseUp={handleDragEnd}
@@ -153,37 +290,224 @@ export default function Projects() {
         >
           {/* Header Card */}
           <div className="w-[100vw] flex-shrink-0 flex flex-col justify-center items-center pointer-events-none select-none">
-            <h2 className="text-[10vw] font-black tracking-tight leading-none m-0 text-center" style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}>MY<br /><span className="text-white" style={{ WebkitTextStroke: '4.5px white', color: 'transparent' }}>PROJECTS</span></h2>
+            <h2
+              className="text-[10vw] font-black tracking-tight leading-none m-0 text-center"
+              style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              MY<br />
+              <span className="text-white" style={{ WebkitTextStroke: '4.5px white', color: 'transparent' }}>
+                PROJECTS
+              </span>
+            </h2>
           </div>
 
           {/* Project Cards */}
-          {projects.map((project) => (
-            <div key={project.id} className="project-card aspect-video h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group overflow-hidden select-none">
-              <div className="absolute inset-0 bg-white/[0.03] border border-white/10 group-hover:border-white/30 transition-all duration-500" />
+          {projects.map((project) => {
+            const firstImage = project.images && project.images.length > 0
+              ? project.images[0]
+              : `1.jpg`;
+            const imagePath = `/assets/project-imgs/${project.imageFolder}/${firstImage}`;
 
-              <div className="absolute inset-0 flex items-center justify-center grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 pointer-events-none">
-                <div className="w-full h-full bg-gradient-to-br from-white/10 via-transparent to-transparent" />
-                <div className="absolute font-black text-[30vw] opacity-5 select-none pointer-events-none">
-                  {String(project.id).padStart(2, '0')}
-                </div>
-              </div>
+            return (
+              <motion.div
+                key={project.id}
+                layoutId={`card-${project.id}`}
+                className="project-card aspect-video h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group overflow-hidden select-none cursor-pointer"
+                onMouseEnter={() => setHoveredProject(project.id)}
+                onMouseLeave={() => setHoveredProject(null)}
+                onClick={() => handleCardClick(project)}
+              >
+                <motion.div
+                  layoutId={`bg-${project.id}`}
+                  className="absolute inset-0 bg-zinc-900 border border-white/10 group-hover:border-white/30"
+                />
 
-              <div className="absolute bottom-10 left-10 md:bottom-16 md:left-16 pointer-events-none">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono text-[10px] text-white/40">{String(project.id).padStart(2, '0')}</span>
-                  <div className="w-6 h-[1px] bg-white/20" />
-                  <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">{project.type}</span>
-                  <div className="w-6 h-[1px] bg-white/20" />
-                  <span className="font-mono text-[10px] text-white/20 uppercase tracking-widest">{project.tag}</span>
+                {/* Card Image Background */}
+                <div className="absolute inset-0 opacity-40 group-hover:opacity-60 group-hover:scale-[1.02] transition-all duration-1000">
+                  <img
+                    src={imagePath}
+                    alt={project.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                 </div>
-                <h3 className="text-5xl md:text-7xl font-black tracking-tight transition-all duration-500 uppercase">{project.title}</h3>
-              </div>
-            </div>
-          ))}
+
+                {/* Title - Stays at Bottom Left */}
+                <div className="absolute bottom-10 left-10 md:bottom-13 md:left-16 pointer-events-none">
+                  <motion.h3
+                    layoutId={`title-${project.id}`}
+                    className="text-5xl md:text-7xl font-black tracking-tight uppercase"
+                  >
+                    {project.title}
+                  </motion.h3>
+                </div>
+              </motion.div>
+            );
+          })}
 
           <div className="w-[10vw] flex-shrink-0" />
         </div>
-      </div>
+      </motion.div>
+
+      {/* Expanded Project View */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
+              onClick={closeModal}
+            />
+
+            <motion.div
+              layoutId={`card-${selectedProject.id}`}
+              ref={modalContentRef}
+              className="relative bg-zinc-950 w-full h-full overflow-y-auto custom-scrollbar flex flex-col"
+              transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
+            >
+              <motion.div
+                layoutId={`bg-${selectedProject.id}`}
+                className="absolute inset-0 bg-zinc-950"
+              />
+
+              {/* Fixed Close Button always on top-right */}
+              <motion.button
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                onClick={closeModal}
+                className="group flex flex-col items-center gap-2 fixed top-8 right-8 md:top-12 md:right-12 z-50"
+              >
+                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all duration-500">
+                  <FiX size={24} />
+                </div>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Close</span>
+              </motion.button>
+
+              {/* Scrollable Container */}
+              <div className="relative w-full z-10">
+                {/* Expanded Header - Now part of the scroll flow */}
+                <div className="p-8 md:p-16 flex justify-between items-end pr-28 md:pr-40">
+                  <div className="max-w-4xl">
+                    <motion.h2
+                      layoutId={`title-${selectedProject.id}`}
+                      className="text-6xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.85]"
+                    >
+                      {selectedProject.title}
+                    </motion.h2>
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                <div className="max-w-[1400px] mx-auto p-8 md:p-16 pt-0 pb-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
+                    {/* Left Side: Meta & Info */}
+                    <div className="lg:col-span-4 space-y-12">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-6">Description</h4>
+                        <p className="text-xl md:text-2xl text-white/60 leading-relaxed font-light">
+                          {selectedProject.description || "Project details arriving soon."}
+                        </p>
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                      >
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-8">Technologies</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.techStack?.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-4 py-2 bg-white/5 border border-white/10 text-white/50 text-[10px] font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-500"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {selectedProject.url && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.5 }}
+                        >
+                          <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-6">Discovery</h4>
+                          <a
+                            href={selectedProject.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-4 text-white hover:gap-6 transition-all duration-500 group/link"
+                          >
+                            <span className="text-sm font-bold uppercase tracking-[0.2em]">
+                              {selectedProject.url.includes("github.com") ? "View Source" : "Launch Project"}
+                            </span>
+                            <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover/link:bg-white group-hover/link:text-black transition-all duration-500">
+                              <FiExternalLink size={16} />
+                            </div>
+                          </a>
+                        </motion.div>
+                      )}
+                    </div>
+
+                    {/* Right Side: Gallery */}
+                    <div className="lg:col-span-8">
+                      <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-10">Preview</h4>
+                      <div className="grid grid-cols-1 gap-12">
+                        {selectedProject.imageCount > 0 ? (
+                          Array.from({ length: selectedProject.imageCount }).map((_, i) => {
+                            const imageName = selectedProject.images && selectedProject.images[i]
+                              ? selectedProject.images[i]
+                              : `${i + 1}.jpg`;
+
+                            return (
+                              <motion.div
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.4 + i * 0.1 }}
+                                className="relative aspect-video bg-white/5 border border-white/10 overflow-hidden"
+                              >
+                                <img
+                                  src={`/assets/project-imgs/${selectedProject.imageFolder}/${imageName}`}
+                                  alt={`${selectedProject.title} screenshot ${i + 1}`}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
+                                  }}
+                                />
+                              </motion.div>
+                            );
+                          })
+                        ) : (
+                          <div className="aspect-video bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-4 opacity-20">
+                            <div className="w-12 h-[1px] bg-white" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-center">Visual records pending</span>
+                            <div className="w-12 h-[1px] bg-white" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Background ID Watermark Removed */}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
