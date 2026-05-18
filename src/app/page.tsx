@@ -129,7 +129,7 @@ export default function Home() {
         <Contact />
 
         {/* Footer */}
-        <footer className="relative z-10 py-24 px-12 border-t border-white/5 bg-black">
+        <footer className="relative z-10 py-12 px-12 border-t border-white/5 bg-black">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
             <div className="flex flex-col items-center md:items-start">
               <h3 className="text-2xl font-black tracking-tighter">
@@ -145,10 +145,7 @@ export default function Home() {
               <a href="https://www.instagram.com/emmmmjeyyy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-white/40">INSTAGRAM</a>
             </div>
 
-            <div className="hidden md:block text-right font-mono text-[9px] text-white/20 leading-tight">
-              SYSTEM_STATUS: ONLINE<br />
-              RENDER_ENGINE: NEXT_JS_15
-            </div>
+
           </div>
         </footer>
       </main>
