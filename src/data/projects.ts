@@ -55,7 +55,7 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "EMM LAB",
+    title: "EMMLAB",
     description:
       "A high-performance UI laboratory and documentation system engineered for the synthesis, real-time previewing, and distribution of futuristic React components.",
     techStack: [
@@ -141,6 +141,19 @@ export const projects: Project[] = [
     images: ["svg-printer.png"],
   },
   {
+    id: 19,
+    title: "TEKTON",
+    description:
+      "An AI-powered interface for generating high-fidelity user interface components and conceptual design variations based on natural language prompts.",
+    techStack: ["TypeScript", "React", "Google Gemini", "Vite"],
+    type: "DEVELOPER TOOL",
+    tag: "Open Source",
+    url: "https://github.com/Emmjeyyyy/tekton",
+    imageFolder: "TEKTON",
+    imageCount: 1,
+    images: ["tekton.png"],
+  },
+  {
     id: 7,
     title: "KANJI TERMINAL",
     description:
@@ -163,7 +176,8 @@ export const projects: Project[] = [
     tag: "Web App",
     url: "https://kanablitz.vercel.app/",
     imageFolder: "KANABLITZ",
-    imageCount: 0,
+    imageCount: 2,
+    images: ["kanablitz.png", "kanablitz2.png"],
   },
   {
     id: 9,
@@ -175,7 +189,8 @@ export const projects: Project[] = [
     tag: "Dev Tool",
     url: "https://emm-github-stats.vercel.app/",
     imageFolder: "GITHUB-STATS",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["github-stats.png"],
   },
   {
     id: 10,
@@ -193,7 +208,8 @@ export const projects: Project[] = [
     tag: "Web App",
     url: "https://anime-series-directory.vercel.app/",
     imageFolder: "ANIME-DIRECTORY",
-    imageCount: 0,
+    imageCount: 3,
+    images: ["asd.png", "asd2.png", "asd3.png"],
   },
   {
     id: 11,
@@ -205,7 +221,8 @@ export const projects: Project[] = [
     tag: "Creative",
     url: "https://interdimensional-codex.vercel.app/#/",
     imageFolder: "INTERDIMENSIONAL-CODEX",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["inter1.png"],
   },
   {
     id: 12,
@@ -223,7 +240,8 @@ export const projects: Project[] = [
     tag: "Web App",
     url: "",
     imageFolder: "GIGAVRY",
-    imageCount: 0,
+    imageCount: 2,
+    images: ["gigavry1.png", "gigavry2.png"],
   },
   {
     id: 13,
@@ -235,7 +253,8 @@ export const projects: Project[] = [
     tag: "Fan Project",
     url: "https://dota-terminal.vercel.app/",
     imageFolder: "DOTA-TERMINAL",
-    imageCount: 0,
+    imageCount: 3,
+    images: ["dota1.png", "dota2.png", "dota3.png"],
   },
   {
     id: 14,
@@ -247,7 +266,8 @@ export const projects: Project[] = [
     tag: "Utility",
     url: "https://ror2-save-editor.vercel.app/",
     imageFolder: "ROR2-SAVE-EDITOR",
-    imageCount: 0,
+    imageCount: 5,
+    images: ["ror2-1.png", "ror2-2.png", "ror2-3.png", "ror2-4.png", "ror2-5.png"],
   },
   {
     id: 15,
@@ -259,11 +279,12 @@ export const projects: Project[] = [
     tag: "Interactive",
     url: "https://tic-tac-toe-mult.vercel.app/",
     imageFolder: "TIC-TAC-TOE",
-    imageCount: 0,
+    imageCount: 2,
+    images: ["tic1.png", "tic2.png"],
   },
   {
     id: 16,
-    title: "BLOOD ECHOES:DUNGEON CRAWLER",
+    title: "BLOOD ECHOES",
     description:
       "A roguelite dungeon crawler game featuring procedural progression and combat mechanics.",
     techStack: ["TypeScript", "React", "Vite", "Tailwind CSS"],
@@ -271,18 +292,20 @@ export const projects: Project[] = [
     tag: "Interactive",
     url: "https://dungeon-crawler-game-eosin.vercel.app/",
     imageFolder: "BLOOD-ECHOES",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["blood1.png"],
   },
   {
     id: 17,
-    title: "ROGUELIKE SHOOTER GAME",
+    title: "NEON SURVIVOR",
     description: "",
     techStack: [],
     type: "GAME",
     tag: "Experiment",
     url: "https://test-game-drab.vercel.app/",
-    imageFolder: "ROGUELIKE-SHOOTER",
-    imageCount: 0,
+    imageFolder: "NEON SURVIVOR",
+    imageCount: 3,
+    images: ["neon1.png", "neon2.png", "neon3.png"],
   },
   {
     id: 18,
@@ -292,27 +315,15 @@ export const projects: Project[] = [
     techStack: ["Java AWT", "Swing"],
     type: "GAME",
     tag: "Interactive",
-    url: "",
+    url: "https://github.com/Emmjeyyyy/dodge-master",
     imageFolder: "DODGE-MASTER",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["dodge1.png"],
   },
 ];
 
 // Projects intentionally hidden from the public gallery
 export const hiddenProjects: Project[] = [
-  {
-    id: 19,
-    title: "TEKTON",
-    description:
-      "An AI-powered interface for generating high-fidelity user interface components and conceptual design variations based on natural language prompts.",
-    techStack: ["TypeScript", "React", "Google Gemini", "Vite"],
-    type: "DEVELOPER TOOL",
-    tag: "Open Source",
-    url: "https://github.com/Emmjeyyyy/tekton",
-    imageFolder: "TEKTON",
-    imageCount: 1,
-    images: ["tekton.png"],
-  },
   {
     id: 20,
     title: "BABY Z INVITATION",

@@ -64,9 +64,11 @@ export default function Projects() {
     // Amount the trigger has scrolled past the top of the viewport
     const scrolled = -rect.top;
 
-    // Added a slight delay to allow the 'MY PROJECTS' title to breathe
+    // Added a slight delay to allow the 'MY PROJECTS' title to breathe, and an endDelay to rest on the final card
     const delay = window.innerHeight * 0.3;
-    const progress = Math.max(0, Math.min(1, (scrolled - delay) / (triggerHeight - delay)));
+    const endDelay = window.innerHeight * 0.6; // Holds the last card in place before releasing
+    const scrollableHeight = triggerHeight - delay - endDelay;
+    const progress = Math.max(0, Math.min(1, (scrolled - delay) / scrollableHeight));
 
     // Find the project cards inside the section
     const cards = section.getElementsByClassName('project-card');
@@ -139,8 +141,10 @@ export default function Projects() {
     lenis.scrollTo(newScroll, { immediate: true });
 
     // Also update targetX immediately for better responsiveness during drag
-    const delay = window.innerHeight * 0.5;
-    const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop - delay) / (triggerHeight - delay)));
+    const delay = window.innerHeight * 0.3;
+    const endDelay = window.innerHeight * 0.6;
+    const scrollableHeight = triggerHeight - delay - endDelay;
+    const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop - delay) / scrollableHeight));
 
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
@@ -325,7 +329,7 @@ export default function Projects() {
                 />
 
                 {/* Card Image Background */}
-                <div className="absolute inset-0 opacity-40 group-hover:opacity-60 group-hover:scale-[1.02] transition-all duration-1000">
+                <div className="absolute inset-0 opacity-40 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-1000">
                   <img
                     src={imagePath}
                     alt={project.title}
@@ -341,9 +345,11 @@ export default function Projects() {
                 <div className="absolute bottom-10 left-10 md:bottom-13 md:left-16 pointer-events-none">
                   <motion.h3
                     layoutId={`title-${project.id}`}
-                    className="text-5xl md:text-7xl font-black tracking-tight uppercase"
+                    className="text-5xl md:text-7xl font-black tracking-tight uppercase text-white"
                   >
-                    {project.title}
+                    <span className="inline-block [-webkit-text-stroke:1.5px_transparent] transition-all duration-700 group-hover:text-transparent group-hover:[-webkit-text-stroke:1.5px_#fff]">
+                      {project.title}
+                    </span>
                   </motion.h3>
                 </div>
               </motion.div>
