@@ -150,7 +150,8 @@ export const projects: Project[] = [
     tag: "Interactive",
     url: "https://kanji-terminal.vercel.app/",
     imageFolder: "KANJI-TERMINAL",
-    imageCount: 0,
+    imageCount: 3,
+    images: ["kanji-terminal.png", "kanji-terminal2.png", "kanji-terminal3.png"],
   },
   {
     id: 8,
@@ -309,7 +310,8 @@ export const hiddenProjects: Project[] = [
     tag: "Open Source",
     url: "https://github.com/Emmjeyyyy/tekton",
     imageFolder: "TEKTON",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["tekton.png"],
   },
   {
     id: 20,

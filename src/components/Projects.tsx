@@ -4,7 +4,7 @@ import Lenis from 'lenis';
 import { useLenis } from 'lenis/react';
 import { projects, Project } from '@/data/projects';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { FiX, FiExternalLink, FiGithub } from 'react-icons/fi';
+import { FiX, FiExternalLink, FiGithub, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const LERP_FACTOR = 0.08; // Adjusted for better responsiveness
 
@@ -158,6 +158,7 @@ export default function Projects() {
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [isMouseInProjectSection, setIsMouseInProjectSection] = useState(false);
   const modalContentRef = useRef<HTMLDivElement>(null);
 
@@ -216,6 +217,7 @@ export default function Projects() {
 
   const handleCardClick = (project: Project) => {
     setSelectedProject(project);
+    setActiveImageIndex(0);
     setHoveredProject(null); // Clear hover state on click
     lenis?.stop();
     document.body.style.overflow = 'hidden';
@@ -239,7 +241,7 @@ export default function Projects() {
       <style dangerouslySetInnerHTML={{ __html: scrollbarStyles }} />
       {/* Custom Cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] flex items-center justify-center mix-blend-difference"
+        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -259,7 +261,7 @@ export default function Projects() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.5 }}
-              className="text-black text-[12px] font-bold uppercase tracking-widest"
+              className="text-white text-[12px] font-bold uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
               style={{ mixBlendMode: 'normal' }}
             >
               View
@@ -312,7 +314,7 @@ export default function Projects() {
               <motion.div
                 key={project.id}
                 layoutId={`card-${project.id}`}
-                className="project-card aspect-video h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group overflow-hidden select-none cursor-pointer"
+                className="project-card aspect-[1.85/1] h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group overflow-hidden select-none cursor-pointer"
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
                 onClick={() => handleCardClick(project)}
@@ -327,7 +329,7 @@ export default function Projects() {
                   <img
                     src={imagePath}
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
@@ -464,40 +466,104 @@ export default function Projects() {
                     {/* Right Side: Gallery */}
                     <div className="lg:col-span-8">
                       <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-10">Preview</h4>
-                      <div className="grid grid-cols-1 gap-12">
-                        {selectedProject.imageCount > 0 ? (
-                          Array.from({ length: selectedProject.imageCount }).map((_, i) => {
-                            const imageName = selectedProject.images && selectedProject.images[i]
-                              ? selectedProject.images[i]
-                              : `${i + 1}.jpg`;
-
-                            return (
-                              <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.4 + i * 0.1 }}
-                                className="relative aspect-video bg-white/5 border border-white/10 overflow-hidden"
+                      
+                      {selectedProject.imageCount > 0 ? (
+                        <div className="relative group w-full">
+                          {/* Inner container to hold buttons and the slider frame */}
+                          <div className="relative flex items-center justify-center w-full">
+                            {/* Left Nav Button */}
+                            {selectedProject.imageCount > 1 && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveImageIndex((prev) => (prev === 0 ? selectedProject.imageCount - 1 : prev - 1));
+                                }}
+                                className="absolute -left-6 md:-left-16 w-12 h-12 rounded-full border border-white/10 bg-black/60 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 hover:bg-white hover:text-black hover:border-white transition-all duration-300 z-10"
                               >
-                                <img
-                                  src={`/assets/project-imgs/${selectedProject.imageFolder}/${imageName}`}
-                                  alt={`${selectedProject.title} screenshot ${i + 1}`}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
-                                  }}
-                                />
-                              </motion.div>
-                            );
-                          })
-                        ) : (
-                          <div className="aspect-video bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-4 opacity-20">
-                            <div className="w-12 h-[1px] bg-white" />
-                            <span className="font-mono text-[10px] uppercase tracking-widest text-center">Visual records pending</span>
-                            <div className="w-12 h-[1px] bg-white" />
+                                <FiChevronLeft size={24} />
+                              </button>
+                            )}
+
+                            {/* Image Container with Slider Animation */}
+                            <div className="relative aspect-video overflow-hidden rounded-sm w-full">
+                              <AnimatePresence mode="wait">
+                                <motion.div
+                                  key={activeImageIndex}
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -20 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="w-full h-full flex items-center justify-center"
+                                >
+                                  {selectedProject.images && selectedProject.images[activeImageIndex] ? (
+                                    <img
+                                      src={`/assets/project-imgs/${selectedProject.imageFolder}/${selectedProject.images[activeImageIndex]}`}
+                                      alt={`${selectedProject.title} screenshot ${activeImageIndex + 1}`}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
+                                      }}
+                                    />
+                                  ) : (
+                                    <img
+                                      src={`/assets/project-imgs/${selectedProject.imageFolder}/${activeImageIndex + 1}.jpg`}
+                                      alt={`${selectedProject.title} screenshot ${activeImageIndex + 1}`}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
+                                      }}
+                                    />
+                                  )}
+                                </motion.div>
+                              </AnimatePresence>
+                            </div>
+
+                            {/* Right Nav Button */}
+                            {selectedProject.imageCount > 1 && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveImageIndex((prev) => (prev === selectedProject.imageCount - 1 ? 0 : prev + 1));
+                                }}
+                                className="absolute -right-6 md:-right-16 w-12 h-12 rounded-full border border-white/10 bg-black/60 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 hover:bg-white hover:text-black hover:border-white transition-all duration-300 z-10"
+                              >
+                                <FiChevronRight size={24} />
+                              </button>
+                            )}
                           </div>
-                        )}
-                      </div>
+
+                          {/* Pagination Indicators */}
+                          {selectedProject.imageCount > 1 && (
+                            <div className="flex justify-between items-center mt-6">
+                              {/* Slide Count Counter */}
+                              <span className="font-mono text-[10px] text-white/40 tracking-widest uppercase">
+                                {activeImageIndex + 1} / {selectedProject.imageCount}
+                              </span>
+
+                              {/* Dot Indicators */}
+                              <div className="flex gap-2">
+                                {Array.from({ length: selectedProject.imageCount }).map((_, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => setActiveImageIndex(i)}
+                                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                                      i === activeImageIndex 
+                                        ? "w-8 bg-white" 
+                                        : "w-2 bg-white/20 hover:bg-white/40"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="aspect-video bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-4 opacity-20">
+                          <div className="w-12 h-[1px] bg-white" />
+                          <span className="font-mono text-[10px] uppercase tracking-widest text-center">Visual records pending</span>
+                          <div className="w-12 h-[1px] bg-white" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
