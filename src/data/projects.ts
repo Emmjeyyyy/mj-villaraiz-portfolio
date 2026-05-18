@@ -117,7 +117,8 @@ export const projects: Project[] = [
     tag: "Utility",
     url: "https://srt-gen-em.vercel.app/",
     imageFolder: "SRT-GEN-EM",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["srt-gen.png"],
   },
   {
     id: 6,
@@ -136,7 +137,8 @@ export const projects: Project[] = [
     tag: "Open Source",
     url: "https://github.com/Emmjeyyyy/svg-printer",
     imageFolder: "SVG-PRINTER",
-    imageCount: 0,
+    imageCount: 1,
+    images: ["svg-printer.png"],
   },
   {
     id: 7,
