@@ -275,7 +275,7 @@ export default function Projects() {
       </motion.div>
 
       <motion.div
-        className="sticky top-0 h-screen overflow-hidden border-t border-white/5"
+        className="sticky top-0 h-screen overflow-hidden"
         animate={{
           opacity: selectedProject ? 0.3 : 1,
           scale: selectedProject ? 0.95 : 1,
