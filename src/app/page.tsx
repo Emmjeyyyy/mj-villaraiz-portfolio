@@ -11,6 +11,7 @@ import Skills from "@/components/Skills";
 import Loader from "@/components/Loader";
 import { useProgress } from '@react-three/drei';
 import Contact from "@/components/Contact";
+import Certificates from "@/components/Certificates";
 
 export default function Home() {
   const { progress } = useProgress();
@@ -122,6 +123,7 @@ export default function Home() {
 
         <section id="experience" className="pt-[100px] scroll-mt-0">
           <Experience />
+          <Certificates />
         </section>
 
         <Projects />
