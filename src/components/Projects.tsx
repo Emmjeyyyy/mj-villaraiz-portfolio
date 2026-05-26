@@ -426,6 +426,20 @@ export default function Projects() {
               onClick={closeModal}
             />
 
+            {/* Fixed Close Button always on top-right */}
+            <motion.button
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              onClick={closeModal}
+              className="group flex flex-col items-center gap-2 fixed top-8 right-8 md:top-12 md:right-12 z-50"
+            >
+              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/80 backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all duration-500">
+                <FiX size={24} />
+              </div>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Close</span>
+            </motion.button>
+
             <motion.div
               ref={modalContentRef}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -434,20 +448,6 @@ export default function Projects() {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="relative bg-black w-full h-full overflow-y-auto custom-scrollbar flex flex-col cursor-default"
             >
-
-              {/* Fixed Close Button always on top-right */}
-              <motion.button
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                onClick={closeModal}
-                className="group flex flex-col items-center gap-2 fixed top-8 right-8 md:top-12 md:right-12 z-50"
-              >
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/80 backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all duration-500">
-                  <FiX size={24} />
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Close</span>
-              </motion.button>
 
               {/* Scrollable Container */}
               <div className="relative w-full z-10">
