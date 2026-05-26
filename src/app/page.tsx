@@ -43,14 +43,14 @@ export default function Home() {
       // First, trigger the move to navbar
       const moveTimer = setTimeout(() => {
         setShowLoader(false);
-        
+
         // Then, wait for the logo transition (1.2s) before starting 3D text
         const animTimer = setTimeout(() => {
           setCanExit(true);
         }, 1200);
         return () => clearTimeout(animTimer);
-      }, 500); 
-      
+      }, 500);
+
       return () => clearTimeout(moveTimer);
     }
   }, [progress, pulsesDone]);
@@ -130,7 +130,7 @@ export default function Home() {
                     {item.id === '03' && (
                       <button
                         onClick={() => setIsCvOpen(true)}
-                        className="inline-flex items-center gap-2 bg-white/5 hover:bg-white text-white hover:text-black px-4 py-2 rounded-full border border-white/10 hover:border-white transition-all duration-300 group/cv text-xs font-bold uppercase tracking-widest shrink-0 ml-4"
+                        className="inline-flex items-center gap-2 bg-black hover:bg-white text-white hover:text-black px-4 py-2 rounded-full border border-white transition-all duration-300 group/cv text-xs font-bold uppercase tracking-widest shrink-0 ml-4"
                       >
                         <span>View CV</span>
                         <svg
