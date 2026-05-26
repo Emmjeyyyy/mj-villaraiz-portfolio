@@ -33,6 +33,16 @@ export const experiences: Experience[] = [
   {
     id: 3,
     role: "Participant",
+    company: "TOPCIT ASSESSMENT 2024",
+    location: "",
+    period: "Oct 2024",
+    type: "Assessment",
+    description: "Took part in the TOPCIT 2024 assessment for IT competency evaluation.",
+    tech: []
+  },
+  {
+    id: 4,
+    role: "Participant",
     company: "MCITS | Programming Contest | PSITE 2024",
     location: "",
     period: "May 2024",
@@ -41,7 +51,7 @@ export const experiences: Experience[] = [
     tech: []
   },
   {
-    id: 4,
+    id: 5,
     role: "Participant",
     company: "MCITS | Programming Contest | PSITE 2023",
     location: "",

@@ -245,7 +245,7 @@ export default function Projects() {
       <style dangerouslySetInnerHTML={{ __html: scrollbarStyles }} />
       {/* Custom Cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
+        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
