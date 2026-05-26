@@ -238,7 +238,7 @@ export const projects: Project[] = [
     ],
     type: "GAMING AGGREGATOR",
     tag: "Web App",
-    url: "",
+    url: "https://gigavry.vercel.app/#/free-games",
     imageFolder: "GIGAVRY",
     imageCount: 2,
     images: ["gigavry1.png", "gigavry2.png"],

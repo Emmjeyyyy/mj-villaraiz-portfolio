@@ -12,12 +12,25 @@ import Loader from "@/components/Loader";
 import { useProgress } from '@react-three/drei';
 import Contact from "@/components/Contact";
 import Certificates from "@/components/Certificates";
+import { FiX, FiDownload } from "react-icons/fi";
 
 export default function Home() {
   const { progress } = useProgress();
   const [showLoader, setShowLoader] = useState(true);
   const [pulsesDone, setPulsesDone] = useState(false);
   const [canExit, setCanExit] = useState(false);
+  const [isCvOpen, setIsCvOpen] = useState(false);
+
+  useEffect(() => {
+    if (isCvOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCvOpen]);
 
   useEffect(() => {
     // Reset scroll to top on refresh
@@ -107,14 +120,38 @@ export default function Home() {
                   { id: '02', text: <>Creating <span className="not-italic text-white">small projects</span> and <span className="not-italic text-white">immersive interactive</span> experiences.</> },
                   { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
                 ].map((item) => (
-                  <div key={item.id} className="grid grid-cols-[1.5rem_1fr] gap-2 group pb-4 border-b border-white/[0.03] last:border-0">
-                    <span className="font-mono text-[9px] text-white mt-[8px] transition-colors">{item.id}</span>
-                    <p className="text-sm md:text-[17px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
-                      {item.text}
-                    </p>
+                  <div key={item.id} className="flex items-center justify-between gap-4 group pb-4 border-b border-white/[0.03] last:border-0 w-full">
+                    <div className="grid grid-cols-[1.5rem_1fr] gap-2 flex-1">
+                      <span className="font-mono text-[9px] text-white mt-[8px] transition-colors">{item.id}</span>
+                      <p className="text-sm md:text-[17px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
+                        {item.text}
+                      </p>
+                    </div>
+                    {item.id === '03' && (
+                      <button
+                        onClick={() => setIsCvOpen(true)}
+                        className="inline-flex items-center gap-2 bg-white/5 hover:bg-white text-white hover:text-black px-4 py-2 rounded-full border border-white/10 hover:border-white transition-all duration-300 group/cv text-xs font-bold uppercase tracking-widest shrink-0 ml-4"
+                      >
+                        <span>View CV</span>
+                        <svg
+                          className="w-3.5 h-3.5 transition-transform duration-300 group-hover/cv:translate-x-0.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 ))}
               </motion.div>
+
             </div>
           </div>
         </section>
@@ -150,6 +187,66 @@ export default function Home() {
 
           </div>
         </footer>
+
+        {/* Custom CV Modal Viewer */}
+        <AnimatePresence>
+          {isCvOpen && (
+            <div className="fixed inset-0 z-[20000] flex items-center justify-center p-4 md:p-10">
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/85 backdrop-blur-md"
+                onClick={() => setIsCvOpen(false)}
+              />
+
+              {/* Modal Container */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full max-w-5xl h-[85vh] bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden flex flex-col z-10 shadow-2xl"
+              >
+                {/* Header Bar */}
+                <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-black/50 backdrop-blur-sm">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold uppercase tracking-widest text-white">Curriculum Vitae</span>
+                    <span className="text-[10px] font-mono text-white/40">MJ VINZ CARLOS VILLARAIZ.pdf</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="/assets/CV/05-26-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf"
+                      download
+                      className="p-2.5 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300 text-white flex items-center justify-center"
+                      title="Download PDF"
+                    >
+                      <FiDownload size={16} />
+                    </a>
+                    <button
+                      onClick={() => setIsCvOpen(false)}
+                      className="p-2.5 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300 text-white flex items-center justify-center"
+                      title="Close"
+                    >
+                      <FiX size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* PDF Viewer */}
+                <div className="flex-1 w-full bg-zinc-900 overflow-hidden">
+                  <iframe
+                    src="/assets/CV/05-26-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf#toolbar=0&navpanes=0"
+                    className="w-full h-full border-none"
+                    title="PDF Viewer"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </main>
     </>
   );
