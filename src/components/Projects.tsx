@@ -6,11 +6,25 @@ import { projects, Project } from '@/data/projects';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { FiX, FiExternalLink, FiGithub, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-const LERP_FACTOR = 0.08; // Adjusted for better responsiveness
 
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
+/** Returns a Tailwind font-size class for card titles based on character length */
+function getCardTitleSize(title: string): string {
+  const len = title.length;
+  if (len <= 12) return 'text-5xl md:text-7xl';
+  if (len <= 18) return 'text-4xl md:text-5xl';
+  if (len <= 24) return 'text-3xl md:text-4xl';
+  return 'text-2xl md:text-3xl';
 }
+
+/** Returns a Tailwind font-size class for the modal title based on character length */
+function getModalTitleSize(title: string): string {
+  const len = title.length;
+  if (len <= 12) return 'text-4xl md:text-5xl lg:text-6xl';
+  if (len <= 18) return 'text-3xl md:text-4xl lg:text-5xl';
+  if (len <= 24) return 'text-2xl md:text-3xl lg:text-4xl';
+  return 'text-xl md:text-2xl lg:text-3xl';
+}
+
 
 const scrollbarStyles = `
   /* Global and Modal Scrollbar */
@@ -39,73 +53,70 @@ const scrollbarStyles = `
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const targetX = useRef(0);
+  // currentX / targetX kept as refs so the card-click handler can read and
+  // freeze the position without triggering a re-render.
   const currentX = useRef(0);
-  const rafId = useRef<number>(0);
+  const targetX = useRef(0);
   const lenis = useLenis();
+
+  // Static layout value: trigger.offsetTop never changes with scroll.
+  // Caching it avoids a forced style-recalc on every Lenis tick.
+  const triggerTopRef = useRef<number>(0);
 
   // Dragging state
   const isDragging = useRef(false);
   const startX = useRef(0);
   const startScroll = useRef(0);
 
-  // Read the target X from Lenis scroll position
-  useLenis(() => {
-    if (isDragging.current) return;
+  // ─── Single source of truth ────────────────────────────────────────────────
+  // All position work happens here, inside the Lenis RAF tick, so the CSS
+  // transform and lenis.scroll are updated in the exact same animation frame.
+  // Previously a separate useEffect RAF loop lerped currentX → targetX on its
+  // own schedule, causing a 1-2 frame desync (the double-lerp problem).
+  // ───────────────────────────────────────────────────────────────────────────
+  useLenis((lenis) => {
+    // When the modal is open the transform is frozen. Do not let this callback
+    // overwrite it or we get a positional jump on close.
+    if (selectedProjectRef.current) return;
 
     const trigger = triggerRef.current;
     const section = sectionRef.current;
     if (!trigger || !section) return;
 
-    // Use getBoundingClientRect to get accurate position relative to viewport
-    const rect = trigger.getBoundingClientRect();
+    // Lazily cache the static trigger offsetTop.
+    if (!triggerTopRef.current) {
+      triggerTopRef.current = trigger.offsetTop;
+    }
+
     const triggerHeight = trigger.offsetHeight - window.innerHeight;
 
-    // Amount the trigger has scrolled past the top of the viewport
-    const scrolled = -rect.top;
+    // lenis.scroll is Lenis' own interpolated value — this is what Lenis has
+    // already committed to window.scrollTo for this tick, so native scroll and
+    // our transform calculation are guaranteed to agree.
+    const scrolled = lenis.scroll - triggerTopRef.current;
 
-    // Added a slight delay to allow the 'MY PROJECTS' title to breathe, and an endDelay to rest on the final card
     const delay = window.innerHeight * 0.3;
-    const endDelay = window.innerHeight * 0.6; // Holds the last card in place before releasing
+    const endDelay = window.innerHeight * 0.6;
     const scrollableHeight = triggerHeight - delay - endDelay;
     const progress = Math.max(0, Math.min(1, (scrolled - delay) / scrollableHeight));
 
-    // Find the project cards inside the section
     const cards = section.getElementsByClassName('project-card');
     const lastCard = cards[cards.length - 1] as HTMLElement;
 
+    let newX: number;
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
       const finalX = -(lastCardCenter - window.innerWidth / 2);
-      targetX.current = finalX * progress;
+      newX = finalX * progress;
     } else {
-      const maxX = -(section.scrollWidth - window.innerWidth);
-      targetX.current = maxX * progress;
+      newX = -(section.scrollWidth - window.innerWidth) * progress;
     }
+
+    // Apply the transform inside this tick — no separate RAF loop, no lag.
+    currentX.current = newX;
+    targetX.current = newX;
+    section.style.transform = `translateX(${newX}px)`;
   });
-
-  // Lerp currentX toward targetX every frame for smooth transition
-  useEffect(() => {
-    const animate = () => {
-      const section = sectionRef.current;
-      if (section && !selectedProjectRef.current) {
-        // Use 1.0 (immediate) during drag, or LERP_FACTOR during scroll
-        const factor = isDragging.current ? 1 : LERP_FACTOR;
-        currentX.current = lerp(currentX.current, targetX.current, factor);
-
-        // Only update DOM if there's a meaningful difference
-        if (Math.abs(currentX.current - targetX.current) > 0.01) {
-          section.style.transform = `translateX(${currentX.current}px)`;
-        } else {
-          section.style.transform = `translateX(${targetX.current}px)`;
-        }
-      }
-      rafId.current = requestAnimationFrame(animate);
-    };
-
-    rafId.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId.current);
-  }, []);
 
   // Handlers for dragging
   const handleDragStart = (clientX: number) => {
@@ -121,39 +132,24 @@ export default function Projects() {
     const deltaX = clientX - startX.current;
     const trigger = triggerRef.current;
     const section = sectionRef.current;
-
     const triggerHeight = trigger.offsetHeight - window.innerHeight;
 
-    // Calculate rangeX (same logic as in useLenis)
     const cards = section.getElementsByClassName('project-card');
     const lastCard = cards[cards.length - 1] as HTMLElement;
     let rangeX = section.scrollWidth - window.innerWidth;
-
     if (lastCard) {
       const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
       rangeX = lastCardCenter - window.innerWidth / 2;
     }
 
     const ratio = triggerHeight / rangeX;
-    const scrollDelta = -deltaX * ratio; // Drag left = scroll down
-
+    const scrollDelta = -deltaX * ratio;
     const newScroll = startScroll.current + scrollDelta;
+
+    // Calling scrollTo fires a synchronous Lenis tick, which triggers the
+    // useLenis callback above, which computes and applies the transform.
+    // No manual transform update needed here.
     lenis.scrollTo(newScroll, { immediate: true });
-
-    // Also update targetX immediately for better responsiveness during drag
-    const delay = window.innerHeight * 0.3;
-    const endDelay = window.innerHeight * 0.6;
-    const scrollableHeight = triggerHeight - delay - endDelay;
-    const progress = Math.max(0, Math.min(1, (newScroll - trigger.offsetTop - delay) / scrollableHeight));
-
-    if (lastCard) {
-      const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
-      const finalX = -(lastCardCenter - window.innerWidth / 2);
-      targetX.current = finalX * progress;
-    } else {
-      const maxX = -(section.scrollWidth - window.innerWidth);
-      targetX.current = maxX * progress;
-    }
   };
 
   const handleDragEnd = () => {
@@ -241,19 +237,27 @@ export default function Projects() {
 
   const handleCardClick = (project: Project, e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
-    const trigger = triggerRef.current;
     const section = sectionRef.current;
-    if (trigger && section) {
-      // Find the card center
+
+    if (section && lenis) {
+      // 1. Freeze visual transform to exactly where the card lives.
+      //    card.offsetLeft is relative to the (untransformed) section, which is
+      //    exactly what targetX/currentX describe — no native scroll involved.
       const cardCenter = card.offsetLeft + card.offsetWidth / 2;
       const centeredX = -(cardCenter - window.innerWidth / 2);
 
-      // Instantly translate to the centered position
       currentX.current = centeredX;
       targetX.current = centeredX;
       section.style.transform = `translateX(${centeredX}px)`;
 
-      // Sync Lenis scroll position
+      // 2. Stop Lenis FIRST so no further RAF tick can fire and mutate targetX
+      //    or call window.scrollTo() after we compute the sync value below.
+      lenis.stop();
+
+      // 3. Sync Lenis' internal scroll position to match the frozen visual state
+      //    so that when the modal closes and lenis.start() resumes, the useLenis
+      //    callback recalculates targetX from the correct scroll position and
+      //    there is no positional jump.
       const cards = section.getElementsByClassName('project-card');
       const lastCard = cards[cards.length - 1] as HTMLElement;
       let finalX = 0;
@@ -265,20 +269,22 @@ export default function Projects() {
       }
 
       const progress = finalX !== 0 ? centeredX / finalX : 0;
-      const triggerHeight = trigger.offsetHeight - window.innerHeight;
+      const triggerTop = triggerTopRef.current;
+      const triggerHeight = (triggerRef.current?.offsetHeight ?? 0) - window.innerHeight;
       const delay = window.innerHeight * 0.3;
       const endDelay = window.innerHeight * 0.6;
       const scrollableHeight = triggerHeight - delay - endDelay;
       const targetScrolled = progress * scrollableHeight + delay;
-      const targetScrollY = trigger.offsetTop + targetScrolled;
+      const targetScrollY = triggerTop + targetScrolled;
 
-      lenis?.scrollTo(targetScrollY, { immediate: true });
+      // immediate:true sets the Lenis internal value without triggering a lerp
+      // tick — safe because we already called lenis.stop() above.
+      lenis.scrollTo(targetScrollY, { immediate: true });
     }
 
     setSelectedProject(project);
     setActiveImageIndex(0);
-    setHoveredProject(null); // Clear hover state on click
-    lenis?.stop();
+    setHoveredProject(null);
     document.body.style.overflow = 'hidden';
   };
 
@@ -383,7 +389,7 @@ export default function Projects() {
                 />
 
                 {/* Card Image Background */}
-                <div className="absolute inset-0 opacity-75 group-hover:opacity-100 transition-all duration-1000 overflow-hidden rounded-2xl">
+                <div className="absolute inset-[1px] opacity-75 group-hover:opacity-100 transition-all duration-1000 overflow-hidden rounded-2xl">
                   <img
                     src={imagePath}
                     alt={project.title}
@@ -397,14 +403,11 @@ export default function Projects() {
 
                 {/* Title - Stays at Bottom Left */}
                 <div className="absolute bottom-10 left-10 md:bottom-13 md:left-16 pointer-events-none">
-                  <motion.h3
-                    layoutId={`title-${project.id}`}
-                    className="text-5xl md:text-7xl font-black tracking-tight uppercase text-white"
-                  >
+                  <h3 className={`${getCardTitleSize(project.title)} font-black tracking-tight uppercase text-white`}>
                     <span className="inline-block [-webkit-text-stroke:1.5px_transparent] transition-all duration-700 group-hover:text-transparent group-hover:[-webkit-text-stroke:1.5px_#fff]">
                       {project.title}
                     </span>
-                  </motion.h3>
+                  </h3>
                 </div>
               </div>
             );
@@ -452,14 +455,16 @@ export default function Projects() {
               {/* Scrollable Container */}
               <div className="relative w-full z-10">
                 {/* Expanded Content */}
-                <div className="max-w-[1400px] mx-auto p-8 md:p-16 pt-24 md:pt-32 pb-10">
+                <div className="max-w-[1400px] mx-auto p-8 md:p-16 pt-12 md:pt-16 pb-10">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
                     {/* Left Side: Meta & Info */}
                     <div className="lg:col-span-4 space-y-12">
                       <div className="space-y-6">
                         <motion.h2
-                          layoutId={`title-${selectedProject.id}`}
-                          className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.0] text-white"
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                          className={`${getModalTitleSize(selectedProject.title)} font-black tracking-tight uppercase leading-[1.0] text-white`}
                         >
                           {selectedProject.title}
                         </motion.h2>
@@ -488,7 +493,7 @@ export default function Projects() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                       >
-                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-6">Description</h4>
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-2">Description</h4>
                         <p className="text-xl md:text-2xl text-white/60 leading-relaxed font-light">
                           {selectedProject.description || "Project details arriving soon."}
                         </p>
@@ -499,7 +504,7 @@ export default function Projects() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                       >
-                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-8">Technologies</h4>
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-3">Technologies</h4>
                         <div className="flex flex-wrap gap-2">
                           {selectedProject.techStack?.map((tech, i) => (
                             <span
@@ -515,7 +520,7 @@ export default function Projects() {
 
                     {/* Right Side: Gallery */}
                     <div className="lg:col-span-8">
-                      <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-10">Preview</h4>
+                      <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-3">Preview</h4>
 
                       {selectedProject.imageCount > 0 ? (
                         <div className="relative group w-full">
