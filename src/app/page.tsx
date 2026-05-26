@@ -75,22 +75,45 @@ export default function Home() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
-              className="relative lg:top-[6px]"
+              className="relative lg:top-[6px] flex flex-col items-center lg:items-start gap-8"
             >
-              <ShaderBorder>
-                <div className="relative z-10 w-full aspect-[3/2] bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
-                  {/* This is where your image goes. Using the generated placeholder for now. */}
-                  <img
-                    src="/assets/pfp/skeleton%20chrome.jpg"
-                    alt="MJ VILLARAIZ"
-                    className="w-full h-full object-contain scale-100 group-hover:scale-120 transition-transform duration-1000"
+              <div className="relative w-full">
+                <ShaderBorder>
+                  <div className="relative z-10 w-full aspect-[16/9] bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+                    {/* This is where your image goes. Using the generated placeholder for now. */}
+                    <img
+                      src="/assets/pfp/skeleton%20chrome.jpg"
+                      alt="MJ VILLARAIZ"
+                      className="w-full h-full object-cover object-top scale-100 group-hover:scale-110 transition-transform duration-1000"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                  </div>
+                </ShaderBorder>
+                {/* Decorative metallic elements */}
+                <div className="absolute -top-4 -left-4 w-20 h-20 border-t border-l border-white/20 z-0" />
+                <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b border-r border-white/20 z-0" />
+              </div>
+
+              {/* View CV Button */}
+              <button
+                onClick={() => setIsCvOpen(true)}
+                className="inline-flex items-center gap-3 bg-black hover:bg-white text-white hover:text-black px-6 py-3.5 rounded-full border border-white transition-all duration-300 group/cv w-fit"
+              >
+                <span className="text-xs font-bold uppercase tracking-[0.25em]">View CV</span>
+                <svg
+                  className="w-4 h-4 transition-transform duration-300 group-hover/cv:translate-x-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                </div>
-              </ShaderBorder>
-              {/* Decorative metallic elements */}
-              <div className="absolute -top-4 -left-4 w-20 h-20 border-t border-l border-white/20 z-0" />
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b border-r border-white/20 z-0" />
+                </svg>
+              </button>
             </motion.div>
 
             {/* Right: Info Container */}
@@ -121,33 +144,12 @@ export default function Home() {
                   { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
                 ].map((item) => (
                   <div key={item.id} className="flex items-center justify-between gap-4 group pb-4 border-b border-white/[0.03] last:border-0 w-full">
-                    <div className="grid grid-cols-[1.5rem_1fr] gap-2 flex-1">
-                      <span className="font-mono text-[9px] text-white mt-[8px] transition-colors">{item.id}</span>
+                    <div className="grid grid-cols-[1.85rem_1fr] gap-4 flex-1">
+                      <span className="font-mono text-xs text-white mt-[7px] transition-colors">{item.id}</span>
                       <p className="text-sm md:text-[17px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
                         {item.text}
                       </p>
                     </div>
-                    {item.id === '03' && (
-                      <button
-                        onClick={() => setIsCvOpen(true)}
-                        className="inline-flex items-center gap-2 bg-black hover:bg-white text-white hover:text-black px-4 py-2 rounded-full border border-white transition-all duration-300 group/cv text-xs font-bold uppercase tracking-widest shrink-0 ml-4"
-                      >
-                        <span>View CV</span>
-                        <svg
-                          className="w-3.5 h-3.5 transition-transform duration-300 group-hover/cv:translate-x-0.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </button>
-                    )}
                   </div>
                 ))}
               </motion.div>
