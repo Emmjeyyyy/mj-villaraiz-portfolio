@@ -299,7 +299,7 @@ export const projects: Project[] = [
     id: 17,
     title: "NEON SURVIVOR",
     description: "",
-    techStack: [],
+    techStack: ["TypeScript", "React", "Tailwind CSS", "Vite",],
     type: "GAME",
     tag: "Experiment",
     url: "https://test-game-drab.vercel.app/",

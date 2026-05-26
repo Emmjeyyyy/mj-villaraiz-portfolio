@@ -88,7 +88,7 @@ export default function Projects() {
   useEffect(() => {
     const animate = () => {
       const section = sectionRef.current;
-      if (section) {
+      if (section && !selectedProjectRef.current) {
         // Use 1.0 (immediate) during drag, or LERP_FACTOR during scroll
         const factor = isDragging.current ? 1 : LERP_FACTOR;
         currentX.current = lerp(currentX.current, targetX.current, factor);
@@ -162,6 +162,8 @@ export default function Projects() {
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const selectedProjectRef = useRef<Project | null>(null);
+  selectedProjectRef.current = selectedProject;
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [isMouseInProjectSection, setIsMouseInProjectSection] = useState(false);
   const modalContentRef = useRef<HTMLDivElement>(null);
@@ -177,11 +179,29 @@ export default function Projects() {
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+
+      if (!selectedProject) {
+        const target = e.target as HTMLElement | null;
+        if (target) {
+          const card = target.closest('.project-card');
+          if (card) {
+            setIsMouseInProjectSection(true);
+            const projectId = card.getAttribute('data-project-id');
+            if (projectId) {
+              setHoveredProject(parseInt(projectId, 10));
+            }
+          } else {
+            const inSection = target.closest('#projects');
+            setIsMouseInProjectSection(!!inSection);
+            setHoveredProject(null);
+          }
+        }
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, selectedProject]);
 
   // Local Lenis for Modal
   useEffect(() => {
@@ -219,7 +239,42 @@ export default function Projects() {
     };
   }, [selectedProject]);
 
-  const handleCardClick = (project: Project) => {
+  const handleCardClick = (project: Project, e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const trigger = triggerRef.current;
+    const section = sectionRef.current;
+    if (trigger && section) {
+      // Find the card center
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const centeredX = -(cardCenter - window.innerWidth / 2);
+
+      // Instantly translate to the centered position
+      currentX.current = centeredX;
+      targetX.current = centeredX;
+      section.style.transform = `translateX(${centeredX}px)`;
+
+      // Sync Lenis scroll position
+      const cards = section.getElementsByClassName('project-card');
+      const lastCard = cards[cards.length - 1] as HTMLElement;
+      let finalX = 0;
+      if (lastCard) {
+        const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
+        finalX = -(lastCardCenter - window.innerWidth / 2);
+      } else {
+        finalX = -(section.scrollWidth - window.innerWidth);
+      }
+
+      const progress = finalX !== 0 ? centeredX / finalX : 0;
+      const triggerHeight = trigger.offsetHeight - window.innerHeight;
+      const delay = window.innerHeight * 0.3;
+      const endDelay = window.innerHeight * 0.6;
+      const scrollableHeight = triggerHeight - delay - endDelay;
+      const targetScrolled = progress * scrollableHeight + delay;
+      const targetScrollY = trigger.offsetTop + targetScrolled;
+
+      lenis?.scrollTo(targetScrollY, { immediate: true });
+    }
+
     setSelectedProject(project);
     setActiveImageIndex(0);
     setHoveredProject(null); // Clear hover state on click
@@ -245,17 +300,17 @@ export default function Projects() {
       <style dangerouslySetInnerHTML={{ __html: scrollbarStyles }} />
       {/* Custom Cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
+        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-[2px] border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
           translateX: "-50%",
-          translateY: "-50%",
         }}
         animate={{
           width: hoveredProject ? 90 : 12,
           height: hoveredProject ? 90 : 12,
           opacity: isMouseInProjectSection && !selectedProject ? 1 : 0,
+          translateY: hoveredProject ? "-60%" : "-50%",
         }}
         transition={{ type: "spring", stiffness: 250, damping: 25 }}
       >
@@ -315,25 +370,24 @@ export default function Projects() {
             const imagePath = `/assets/project-imgs/${project.imageFolder}/${firstImage}`;
 
             return (
-              <motion.div
+              <div
                 key={project.id}
-                layoutId={`card-${project.id}`}
-                className="project-card aspect-[1.85/1] h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group overflow-hidden select-none cursor-pointer"
+                data-project-id={project.id}
+                className="project-card aspect-[1.85/1] h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group select-none cursor-pointer transition-shadow duration-500 rounded-2xl hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]"
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
-                onClick={() => handleCardClick(project)}
+                onClick={(e) => handleCardClick(project, e)}
               >
-                <motion.div
-                  layoutId={`bg-${project.id}`}
-                  className="absolute inset-0 bg-zinc-900 border border-white/10 group-hover:border-white/30"
+                <div
+                  className="absolute inset-0 bg-zinc-900 border border-white/10 group-hover:border-white/30 transition-all duration-500 rounded-2xl"
                 />
 
                 {/* Card Image Background */}
-                <div className="absolute inset-0 opacity-40 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-1000">
+                <div className="absolute inset-0 opacity-75 group-hover:opacity-100 transition-all duration-1000 overflow-hidden rounded-2xl">
                   <img
                     src={imagePath}
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000"
+                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-1000"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
@@ -352,7 +406,7 @@ export default function Projects() {
                     </span>
                   </motion.h3>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
 
@@ -373,15 +427,13 @@ export default function Projects() {
             />
 
             <motion.div
-              layoutId={`card-${selectedProject.id}`}
               ref={modalContentRef}
-              className="relative bg-zinc-950 w-full h-full overflow-y-auto custom-scrollbar flex flex-col"
-              transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative bg-black w-full h-full overflow-y-auto custom-scrollbar flex flex-col cursor-default"
             >
-              <motion.div
-                layoutId={`bg-${selectedProject.id}`}
-                className="absolute inset-0 bg-zinc-950"
-              />
 
               {/* Fixed Close Button always on top-right */}
               <motion.button
@@ -391,7 +443,7 @@ export default function Projects() {
                 onClick={closeModal}
                 className="group flex flex-col items-center gap-2 fixed top-8 right-8 md:top-12 md:right-12 z-50"
               >
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all duration-500">
+                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/80 backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all duration-500">
                   <FiX size={24} />
                 </div>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Close</span>
@@ -399,29 +451,44 @@ export default function Projects() {
 
               {/* Scrollable Container */}
               <div className="relative w-full z-10">
-                {/* Expanded Header - Now part of the scroll flow */}
-                <div className="p-8 md:p-16 flex justify-between items-end pr-28 md:pr-40">
-                  <div className="max-w-4xl">
-                    <motion.h2
-                      layoutId={`title-${selectedProject.id}`}
-                      className="text-6xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.85]"
-                    >
-                      {selectedProject.title}
-                    </motion.h2>
-                  </div>
-                </div>
-
                 {/* Expanded Content */}
-                <div className="max-w-[1400px] mx-auto p-8 md:p-16 pt-0 pb-10">
+                <div className="max-w-[1400px] mx-auto p-8 md:p-16 pt-24 md:pt-32 pb-10">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
                     {/* Left Side: Meta & Info */}
                     <div className="lg:col-span-4 space-y-12">
+                      <div className="space-y-6">
+                        <motion.h2
+                          layoutId={`title-${selectedProject.id}`}
+                          className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.0] text-white"
+                        >
+                          {selectedProject.title}
+                        </motion.h2>
+
+                        {selectedProject.url && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.15 }}
+                          >
+                            <a
+                              href={selectedProject.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-3 bg-white/10 hover:bg-white text-white hover:text-black px-6 py-3.5 rounded-full border border-white/10 hover:border-white transition-all duration-300 group/link w-fit"
+                            >
+                              <span className="text-xs font-bold uppercase tracking-[0.25em]">Visit</span>
+                              <FiExternalLink size={14} className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                            </a>
+                          </motion.div>
+                        )}
+                      </div>
+
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                       >
-                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-6">Description</h4>
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-6">Description</h4>
                         <p className="text-xl md:text-2xl text-white/60 leading-relaxed font-light">
                           {selectedProject.description || "Project details arriving soon."}
                         </p>
@@ -432,7 +499,7 @@ export default function Projects() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                       >
-                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-8">Technologies</h4>
+                        <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-8">Technologies</h4>
                         <div className="flex flex-wrap gap-2">
                           {selectedProject.techStack?.map((tech, i) => (
                             <span
@@ -444,35 +511,12 @@ export default function Projects() {
                           ))}
                         </div>
                       </motion.div>
-
-                      {selectedProject.url && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-6">Discovery</h4>
-                          <a
-                            href={selectedProject.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-4 text-white hover:gap-6 transition-all duration-500 group/link"
-                          >
-                            <span className="text-sm font-bold uppercase tracking-[0.2em]">
-                              {selectedProject.url.includes("github.com") ? "View Source" : "Launch Project"}
-                            </span>
-                            <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover/link:bg-white group-hover/link:text-black transition-all duration-500">
-                              <FiExternalLink size={16} />
-                            </div>
-                          </a>
-                        </motion.div>
-                      )}
                     </div>
 
                     {/* Right Side: Gallery */}
                     <div className="lg:col-span-8">
-                      <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-10">Preview</h4>
-                      
+                      <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/50 mb-10">Preview</h4>
+
                       {selectedProject.imageCount > 0 ? (
                         <div className="relative group w-full">
                           {/* Inner container to hold buttons and the slider frame */}
@@ -552,11 +596,10 @@ export default function Projects() {
                                   <button
                                     key={i}
                                     onClick={() => setActiveImageIndex(i)}
-                                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                                      i === activeImageIndex 
-                                        ? "w-8 bg-white" 
-                                        : "w-2 bg-white/20 hover:bg-white/40"
-                                    }`}
+                                    className={`h-1.5 rounded-full transition-all duration-500 ${i === activeImageIndex
+                                      ? "w-8 bg-white"
+                                      : "w-2 bg-white/20 hover:bg-white/40"
+                                      }`}
                                   />
                                 ))}
                               </div>
