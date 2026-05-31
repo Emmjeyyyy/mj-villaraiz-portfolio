@@ -109,8 +109,12 @@ function Scene({ text, startAnimation }: { text: string, startAnimation: boolean
   const chars = text.split('');
   const groupRef = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
-  // Fixed scale for absolute consistency across environments
-  const scale = 1.8;
+  
+  // Calculate responsive scale based on viewport width to ensure text fits on mobile
+  const baseScale = 1.8;
+  const approxTextWidth = 7.5; // Approximate width of "EMMJEYYYY" in three.js units
+  const targetWidth = viewport.width * 0.9; // Use 90% of the screen width
+  const scale = Math.min(baseScale, targetWidth / approxTextWidth);
 
 
 

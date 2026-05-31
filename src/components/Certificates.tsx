@@ -67,7 +67,7 @@ export default function Certificates() {
           transition={{ duration: 0.8 }}
           className="flex items-baseline gap-4"
         >
-          <h2 className="text-6xl md:text-8xl font-playfair tracking-tighter uppercase">
+          <h2 className="text-4xl sm:text-5xl md:text-8xl font-playfair tracking-tighter uppercase break-words">
             Certifications
           </h2>
         </motion.div>

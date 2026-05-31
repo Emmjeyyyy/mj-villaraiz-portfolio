@@ -306,7 +306,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative z-10 pt-[100px] pb-24 px-6 max-w-7xl mx-auto scroll-mt-0">
       <div className="mb-10">
-        <h2 className="text-6xl md:text-8xl font-playfair tracking-tighter uppercase">SKILLS</h2>
+        <h2 className="text-5xl sm:text-6xl md:text-8xl font-playfair tracking-tighter uppercase break-words">SKILLS</h2>
       </div>
 
       <div className="flex flex-col border-t border-white/5">

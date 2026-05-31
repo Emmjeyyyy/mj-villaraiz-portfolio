@@ -72,7 +72,7 @@ export default function Experience() {
           transition={{ duration: 0.8 }}
           className="flex items-baseline gap-4"
         >
-          <h2 className="text-6xl md:text-8xl font-playfair tracking-tighter uppercase">
+          <h2 className="text-4xl sm:text-5xl md:text-8xl font-playfair tracking-tighter uppercase break-words">
             Experience
           </h2>
           <span className="text-xl md:text-2xl font-mono text-white/40 tracking-tighter">{totalXp}</span>
