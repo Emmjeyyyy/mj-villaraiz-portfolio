@@ -9,7 +9,7 @@ import Button3D from "./Button3D";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "", _gotcha: "" });
   const [toast, setToast] = useState<{ show: boolean; message: string }>({
     show: false,
     message: "",
@@ -28,6 +28,18 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate Limiting: Prevent multiple submissions within 1 hour
+    const lastSubmission = localStorage.getItem("lastContactSubmit");
+    if (lastSubmission) {
+      const timeSince = Date.now() - parseInt(lastSubmission, 10);
+      const oneHour = 60 * 60 * 1000;
+      if (timeSince < oneHour) {
+        showToast("You've already sent a message recently. Please try again later.");
+        return;
+      }
+    }
+
     if (!formData.name || !formData.email || !formData.message) {
       showToast("Please fill all fields");
       return;
@@ -37,7 +49,7 @@ export default function Contact() {
     
     try {
       // Using Formspree - You can replace the ID after 'f/' with your own from formspree.io
-      const response = await fetch("https://formspree.io/f/mqaeewjr", {
+      const response = await fetch("https://formspree.io/f/xdajvygo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +59,8 @@ export default function Contact() {
 
       if (response.ok) {
         showToast("Message sent. Talk soon.");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", message: "", _gotcha: "" });
+        localStorage.setItem("lastContactSubmit", Date.now().toString());
       } else {
         showToast("Error sending message. Try again.");
       }
@@ -154,12 +167,23 @@ export default function Contact() {
                   <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none" />
 
                   <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
+                    {/* Honeypot field to trick bots */}
+                    <input
+                      type="text"
+                      name="_gotcha"
+                      style={{ display: "none" }}
+                      value={formData._gotcha}
+                      onChange={(e) => setFormData({ ...formData, _gotcha: e.target.value })}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+
                     <div className="group relative">
                       <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Name</span>
                       <input
                         type="text"
                         placeholder="YOUR NAME"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest uppercase font-mono"
+                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
@@ -172,7 +196,7 @@ export default function Contact() {
                       <input
                         type="email"
                         placeholder="YOUR EMAIL"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest uppercase font-mono"
+                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
@@ -184,7 +208,7 @@ export default function Contact() {
                       <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Message</span>
                       <textarea
                         placeholder="YOUR MESSAGE"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest uppercase font-mono resize-none h-32"
+                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono resize-none h-32"
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       />
