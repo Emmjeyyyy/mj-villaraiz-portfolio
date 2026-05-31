@@ -554,7 +554,7 @@ export default function Projects() {
                                     <img
                                       src={`/assets/project-imgs/${selectedProject.imageFolder}/${selectedProject.images[activeImageIndex]}`}
                                       alt={`${selectedProject.title} screenshot ${activeImageIndex + 1}`}
-                                      className="w-full h-full object-contain"
+                                      className="w-full h-full object-contain rounded-md border border-white/10"
                                       onError={(e) => {
                                         (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
                                       }}
@@ -563,7 +563,7 @@ export default function Projects() {
                                     <img
                                       src={`/assets/project-imgs/${selectedProject.imageFolder}/${activeImageIndex + 1}.jpg`}
                                       alt={`${selectedProject.title} screenshot ${activeImageIndex + 1}`}
-                                      className="w-full h-full object-contain"
+                                      className="w-full h-full object-contain rounded-md border border-white/10"
                                       onError={(e) => {
                                         (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Image+Coming+Soon';
                                       }}
