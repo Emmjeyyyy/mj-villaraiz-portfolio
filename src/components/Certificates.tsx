@@ -67,7 +67,7 @@ export default function Certificates() {
           transition={{ duration: 0.8 }}
           className="flex items-baseline gap-4"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-8xl font-playfair tracking-tighter uppercase break-words">
+          <h2 className="text-4xl sm:text-5xl md:text-8xl font-playfair tracking-tighter uppercase wrap-break-word">
             Certifications
           </h2>
         </motion.div>
@@ -83,7 +83,7 @@ export default function Certificates() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative flex flex-col md:flex-row border border-white/5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] hover:border-white/20 transition-all duration-500 overflow-hidden min-h-[220px]"
+              className="group relative flex flex-col md:flex-row border border-white/5 rounded-2xl bg-white/1 hover:bg-white/3 hover:border-white/20 transition-all duration-500 overflow-hidden min-h-[220px]"
             >
               {/* External Link Icon - Top Right of Card */}
               <a
@@ -98,7 +98,7 @@ export default function Certificates() {
 
               {/* Left Side: Preview Image Container */}
               <div 
-                className="group/img relative w-full md:w-[38%] aspect-[1.5/1] md:aspect-auto md:h-full min-h-[160px] overflow-hidden bg-black flex items-center justify-center cursor-pointer border-b md:border-b-0 md:border-r border-white/5"
+                className="group/img relative w-full md:w-[38%] aspect-1.5/1 md:aspect-auto md:h-full min-h-[160px] overflow-hidden bg-black flex items-center justify-center cursor-pointer border-b md:border-b-0 md:border-r border-white/5"
                 onClick={() => setSelectedImage(cert.image)}
               >
                 <img

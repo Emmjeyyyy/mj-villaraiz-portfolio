@@ -79,14 +79,14 @@ export default function Home() {
             >
               <div className="relative w-full">
                 <ShaderBorder>
-                  <div className="relative z-10 w-full aspect-[16/9] bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
+                  <div className="relative z-10 w-full aspect-video bg-black overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 group">
                     {/* This is where your image goes. Using the generated placeholder for now. */}
                     <img
                       src="/assets/pfp/skeleton%20chrome.jpg"
                       alt="MJ VILLARAIZ"
                       className="w-full h-full object-cover object-top scale-100 group-hover:scale-110 transition-transform duration-1000"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60" />
                   </div>
                 </ShaderBorder>
                 {/* Decorative metallic elements */}
@@ -143,7 +143,7 @@ export default function Home() {
                   { id: '02', text: <>Creating <span className="not-italic text-white">small projects</span> and <span className="not-italic text-white">immersive interactive</span> experiences.</> },
                   { id: '03', text: <span>Turning <span className="not-italic text-white">bugs into features</span>.</span> }
                 ].map((item) => (
-                  <div key={item.id} className="flex items-center justify-between gap-4 group pb-4 border-b border-white/[0.03] last:border-0 w-full">
+                  <div key={item.id} className="flex items-center justify-between gap-4 group pb-4 border-b border-white/3 last:border-0 w-full">
                     <div className="grid grid-cols-[1.85rem_1fr] gap-4 flex-1">
                       <span className="font-mono text-xs text-white mt-[7px] transition-colors">{item.id}</span>
                       <p className="text-sm md:text-[17px] text-white/50 leading-relaxed font-light group-hover:text-white transition-all duration-500">
@@ -193,7 +193,7 @@ export default function Home() {
         {/* Custom CV Modal Viewer */}
         <AnimatePresence>
           {isCvOpen && (
-            <div className="fixed inset-0 z-[20000] flex items-center justify-center p-4 md:p-10">
+            <div className="fixed inset-0 z-20000 flex items-center justify-center p-4 md:p-10">
               {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}

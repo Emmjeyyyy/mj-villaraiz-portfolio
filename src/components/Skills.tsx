@@ -306,17 +306,17 @@ export default function Skills() {
   return (
     <section id="skills" className="relative z-10 pt-[100px] pb-24 px-6 max-w-7xl mx-auto scroll-mt-0">
       <div className="mb-10">
-        <h2 className="text-5xl sm:text-6xl md:text-8xl font-playfair tracking-tighter uppercase break-words">SKILLS</h2>
+        <h2 className="text-5xl sm:text-6xl md:text-8xl font-playfair tracking-tighter uppercase wrap-break-word">SKILLS</h2>
       </div>
 
       <div className="flex flex-col border-t border-white/5">
         {skillsData.map((item) => (
-          <div key={item.category} className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8 py-6 border-b border-white/5 items-start hover:bg-white/[0.01] transition-colors">
+          <div key={item.category} className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8 py-6 border-b border-white/5 items-start hover:bg-white/1 transition-colors">
             <h3 className="text-xs font-mono text-white uppercase tracking-widest pt-1.5">{item.category}</h3>
             <div className="flex flex-wrap gap-x-6 gap-y-3">
               {item.skills.map((skill) => (
                 <div key={skill.name} className="flex items-center gap-2 group">
-                  <skill.icon className="text-xl flex-shrink-0" style={{ color: skill.color }} />
+                  <skill.icon className="text-xl shrink-0" style={{ color: skill.color }} />
                   <span className="text-lg font-bold text-white transition-colors">{skill.name}</span>
                 </div>
               ))}
