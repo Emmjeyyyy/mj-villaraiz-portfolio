@@ -306,7 +306,7 @@ export default function Projects() {
       <style dangerouslySetInnerHTML={{ __html: scrollbarStyles }} />
       {/* Custom Cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-[2px] border border-white/20 rounded-full pointer-events-none z-[9999] flex items-center justify-center"
+        className="fixed top-0 left-0 w-4 h-4 bg-white/10 backdrop-blur-[2px] border border-white/20 rounded-full pointer-events-none z-9999 flex items-center justify-center"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -356,7 +356,7 @@ export default function Projects() {
           onTouchEnd={handleDragEnd}
         >
           {/* Header Card */}
-          <div className="w-[100vw] flex-shrink-0 flex flex-col justify-center items-center pointer-events-none select-none">
+          <div className="w-screen shrink-0 flex flex-col justify-center items-center pointer-events-none select-none">
             <h2
               className="text-[10vw] font-black tracking-tight leading-none m-0 text-center"
               style={{ fontFamily: '"SF Pro", -apple-system, BlinkMacSystemFont, sans-serif' }}
@@ -379,7 +379,7 @@ export default function Projects() {
               <div
                 key={project.id}
                 data-project-id={project.id}
-                className="project-card aspect-[1.85/1] h-[50vh] md:h-[65vh] flex-shrink-0 mr-[10vw] relative group select-none cursor-pointer transition-shadow duration-500 rounded-2xl hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]"
+                className="project-card aspect-[1.85/1] h-[50vh] md:h-[65vh] shrink-0 mr-[10vw] relative group select-none cursor-pointer transition-shadow duration-500 rounded-2xl hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]"
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
                 onClick={(e) => handleCardClick(project, e)}
@@ -389,16 +389,16 @@ export default function Projects() {
                 />
 
                 {/* Card Image Background */}
-                <div className="absolute inset-[1px] opacity-75 group-hover:opacity-100 transition-all duration-1000 overflow-hidden rounded-2xl">
+                <div className="absolute inset-px opacity-75 group-hover:opacity-100 transition-all duration-1000 overflow-hidden rounded-2xl">
                   <img
                     src={imagePath}
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-1000"
+                    className="w-full h-full object-cover grayscale-30 group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-1000"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent" />
                 </div>
 
                 {/* Title - Stays at Bottom Left */}
@@ -413,14 +413,14 @@ export default function Projects() {
             );
           })}
 
-          <div className="w-[10vw] flex-shrink-0" />
+          <div className="w-[10vw] shrink-0" />
         </div>
       </motion.div>
 
       {/* Expanded Project View */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-[10000] flex items-center justify-center">
+          <div className="fixed inset-0 z-10000 flex items-center justify-center">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -464,7 +464,7 @@ export default function Projects() {
                           initial={{ opacity: 0, y: 16 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className={`${getModalTitleSize(selectedProject.title)} font-black tracking-tight uppercase leading-[1.0] text-white`}
+                          className={`${getModalTitleSize(selectedProject.title)} font-black tracking-tight uppercase leading-none text-white`}
                         >
                           {selectedProject.title}
                         </motion.h2>
@@ -613,9 +613,9 @@ export default function Projects() {
                         </div>
                       ) : (
                         <div className="aspect-video bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-4 opacity-20">
-                          <div className="w-12 h-[1px] bg-white" />
+                          <div className="w-12 h-px bg-white" />
                           <span className="font-mono text-[10px] uppercase tracking-widest text-center">Visual records pending</span>
-                          <div className="w-12 h-[1px] bg-white" />
+                          <div className="w-12 h-px bg-white" />
                         </div>
                       )}
                     </div>

@@ -79,7 +79,7 @@ export default function Contact() {
     <section id="contact" className="relative py-17 px-10 overflow-hidden bg-black selection:bg-white selection:text-black border-t border-white/5">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/2 blur-[100px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-20 items-start">
@@ -166,7 +166,7 @@ export default function Contact() {
                   }}
                 >
                   {/* Glossy Overlay */}
-                  <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/3 to-transparent pointer-events-none" />
 
                   {config.acceptingMessages === 1 ? (
                     <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
@@ -190,8 +190,8 @@ export default function Contact() {
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         />
-                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                        <div className="absolute bottom-0 left-0 w-full h-px bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-px bg-white w-0 group-focus-within:w-full transition-all duration-500" />
                       </div>
 
                       <div className="group relative">
@@ -203,8 +203,8 @@ export default function Contact() {
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
-                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                        <div className="absolute bottom-0 left-0 w-full h-px bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-px bg-white w-0 group-focus-within:w-full transition-all duration-500" />
                       </div>
 
                       <div className="group relative">
@@ -215,8 +215,8 @@ export default function Contact() {
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         />
-                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                        <div className="absolute bottom-0 left-0 w-full h-px bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-px bg-white w-0 group-focus-within:w-full transition-all duration-500" />
                       </div>
 
                       <div className="pt-4">
@@ -281,7 +281,7 @@ export default function Contact() {
             initial={{ y: 50, x: 20, opacity: 0 }}
             animate={{ y: 0, x: 0, opacity: 1 }}
             exit={{ y: 20, x: 20, opacity: 0 }}
-            className="fixed bottom-12 right-12 z-[1000] bg-white text-black px-8 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-4 shadow-[0_0_50px_rgba(255,255,255,0.1)] rounded-lg"
+            className="fixed bottom-12 right-12 z-1000 bg-white text-black px-8 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-4 shadow-[0_0_50px_rgba(255,255,255,0.1)] rounded-lg"
           >
             <HiCheck className="text-base" />
             {toast.message}
@@ -309,7 +309,7 @@ function ChannelLink({ leftIcon, type, name, href, onClick, icon }: {
       className="group relative flex items-center justify-between py-8 px-4 border-b border-white/5 hover:border-white/20 transition-all duration-500 overflow-hidden"
     >
       {/* Background Hover Effect */}
-      <div className="absolute inset-0 bg-white/[0.02] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+      <div className="absolute inset-0 bg-white/2 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
 
       <div className="relative z-10 flex items-center gap-6 md:gap-12">
         <div className="text-white text-3xl w-12 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-all duration-300">
