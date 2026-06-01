@@ -263,7 +263,7 @@ export default function Contact() {
                           WebkitTextFillColor: 'transparent',
                         }}
                       >
-                        Currently not accepting messages...
+                        Currently not accepting messages
                       </p>
                     </div>
                   )}
