@@ -53,7 +53,7 @@ const certificates: Certificate[] = [
   },
   {
     id: 5,
-    title: "Complete JavaScript Course",
+    title: "JavaScript Complete Course",
     issuer: "Udemy",
     date: "2026",
     image: "/assets/certs/complete-javascript-course/complete-javascript-course.jpg",
@@ -62,7 +62,7 @@ const certificates: Certificate[] = [
   },
   {
     id: 6,
-    title: "Deepseek AI Automate Tasks and Write Code Effortlessly",
+    title: "DeepSeek AI: Automation & Coding",
     issuer: "Udemy",
     date: "2026",
     image: "/assets/certs/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly.jpg",
@@ -115,7 +115,7 @@ export default function Certificates() {
               </a>
 
               {/* Left Side: Preview Image Container */}
-              <div 
+              <div
                 className="group/img relative w-full md:w-[38%] aspect-1.5/1 md:aspect-auto md:h-full min-h-[160px] overflow-hidden bg-black flex items-center justify-center cursor-pointer border-b md:border-b-0 md:border-r border-white/5"
                 onClick={() => setSelectedImage(cert.image)}
               >
@@ -128,7 +128,7 @@ export default function Certificates() {
                   }}
                 />
                 <div className="absolute inset-0 bg-transparent group-hover/img:bg-black/45 transition-colors duration-500 rounded-l-2xl" />
-                
+
                 {/* Floating Eye indicator */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-all duration-500">
                   <div className="w-10 h-10 rounded-full bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:scale-115 transition-all">
@@ -141,14 +141,14 @@ export default function Certificates() {
               <div className="w-full md:w-[62%] p-6 md:p-8 flex flex-col justify-center">
                 <div>
                   <span className="font-mono text-[9px] text-white/30 uppercase tracking-[0.2em]">{cert.date}</span>
-                  
-                  <h3 
+
+                  <h3
                     className="text-lg md:text-xl font-bold tracking-tight uppercase text-white group-hover:text-white transition-colors mt-2 mb-1 cursor-pointer pr-8"
                     onClick={() => setSelectedImage(cert.image)}
                   >
                     {cert.title}
                   </h3>
-                  
+
                   <div className="text-white/40 font-mono text-[10px] uppercase tracking-[0.15em] mb-6">
                     {cert.issuer}
                   </div>
