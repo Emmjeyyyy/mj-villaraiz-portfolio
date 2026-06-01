@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineArrowUpRight, HiOutlineClipboard, HiCheck, HiOutlineEnvelope } from "react-icons/hi2";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { TbMailOff } from "react-icons/tb";
 import LiquidMetalBorder from "./LiquidMetalBorder";
 import Button3D from "./Button3D";
+import { config } from "../config";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +48,7 @@ export default function Contact() {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Using Formspree - You can replace the ID after 'f/' with your own from formspree.io
       const response = await fetch("https://formspree.io/f/xdajvygo", {
@@ -166,55 +168,56 @@ export default function Contact() {
                   {/* Glossy Overlay */}
                   <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none" />
 
-                  <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
-                    {/* Honeypot field to trick bots */}
-                    <input
-                      type="text"
-                      name="_gotcha"
-                      style={{ display: "none" }}
-                      value={formData._gotcha}
-                      onChange={(e) => setFormData({ ...formData, _gotcha: e.target.value })}
-                      tabIndex={-1}
-                      autoComplete="off"
-                    />
-
-                    <div className="group relative">
-                      <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Name</span>
+                  {config.acceptingMessages === 1 ? (
+                    <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
+                      {/* Honeypot field to trick bots */}
                       <input
                         type="text"
-                        placeholder="YOUR NAME"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        name="_gotcha"
+                        style={{ display: "none" }}
+                        value={formData._gotcha}
+                        onChange={(e) => setFormData({ ...formData, _gotcha: e.target.value })}
+                        tabIndex={-1}
+                        autoComplete="off"
                       />
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                      <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
-                    </div>
 
-                    <div className="group relative">
-                      <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Email</span>
-                      <input
-                        type="email"
-                        placeholder="YOUR EMAIL"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                      <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
-                    </div>
+                      <div className="group relative">
+                        <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Name</span>
+                        <input
+                          type="text"
+                          placeholder="YOUR NAME"
+                          className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        />
+                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                      </div>
 
-                    <div className="group relative">
-                      <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Message</span>
-                      <textarea
-                        placeholder="YOUR MESSAGE"
-                        className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono resize-none h-32"
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      />
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
-                      <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
-                    </div>
+                      <div className="group relative">
+                        <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Email</span>
+                        <input
+                          type="email"
+                          placeholder="YOUR EMAIL"
+                          className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
+                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                      </div>
+
+                      <div className="group relative">
+                        <span className="block font-mono text-[9px] text-white/60 tracking-[0.3em] uppercase mb-1">Message</span>
+                        <textarea
+                          placeholder="YOUR MESSAGE"
+                          className="w-full bg-transparent py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-white/10 tracking-widest font-mono resize-none h-32"
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        />
+                        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/5" />
+                        <div className="absolute bottom-0 left-0 h-[1px] bg-white w-0 group-focus-within:w-full transition-all duration-500" />
+                      </div>
 
                       <div className="pt-4">
                         <Button3D
@@ -234,7 +237,36 @@ export default function Contact() {
                           disabled={isSubmitting}
                         />
                       </div>
-                  </form>
+                    </form>
+                  ) : (
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-[400px] space-y-6">
+                      <svg width="0" height="0" className="absolute">
+                        <linearGradient id="metallic-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#FFFFFF" />
+                          <stop offset="40%" stopColor="#cbd5e1" />
+                          <stop offset="50%" stopColor="#FFFFFF" />
+                          <stop offset="60%" stopColor="#94a3b8" />
+                          <stop offset="100%" stopColor="#475569" />
+                        </linearGradient>
+                      </svg>
+
+                      <TbMailOff
+                        className="text-5xl drop-shadow-md"
+                        style={{ stroke: "url(#metallic-grad)" }}
+                      />
+
+                      <p
+                        className="font-mono text-sm tracking-widest text-center uppercase font-bold drop-shadow-md"
+                        style={{
+                          background: 'linear-gradient(to bottom, #FFFFFF 0%, #cbd5e1 40%, #FFFFFF 50%, #94a3b8 60%, #475569 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}
+                      >
+                        Currently not accepting messages...
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
