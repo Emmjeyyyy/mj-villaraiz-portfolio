@@ -50,6 +50,24 @@ const certificates: Certificate[] = [
     image: "/assets/certs/python-complete-course/Python_Complet_Course_For_Beginners.jpg",
     pdf: "/assets/certs/python-complete-course/Python_Complet_Course_For_Beginners.pdf",
     skills: ["Core Python", "Algorithm Design", "Scripting basics"]
+  },
+  {
+    id: 5,
+    title: "Complete JavaScript Course",
+    issuer: "Udemy",
+    date: "2026",
+    image: "/assets/certs/complete-javascript-course/complete-javascript-course.jpg",
+    pdf: "/assets/certs/complete-javascript-course/complete-javascript-course.pdf",
+    skills: ["JavaScript", "Web Development", "Frontend"]
+  },
+  {
+    id: 6,
+    title: "Deepseek AI Automate Tasks and Write Code Effortlessly",
+    issuer: "Udemy",
+    date: "2026",
+    image: "/assets/certs/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly.jpg",
+    pdf: "/assets/certs/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly/Deepseek-Al-Automate-Tasks-and-Write-Code-Effortlessly.pdf",
+    skills: ["Deepseek AI", "Automation", "AI Assistance"]
   }
 ];
 
