@@ -220,7 +220,7 @@ export default function Home() {
 
                   <div className="flex items-center gap-3">
                     <a
-                      href="/assets/CV/05-26-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf"
+                      href="/assets/CV/06-06-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf"
                       download
                       className="p-2.5 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300 text-white flex items-center justify-center"
                       title="Download PDF"
@@ -240,7 +240,7 @@ export default function Home() {
                 {/* PDF Viewer */}
                 <div className="flex-1 w-full bg-zinc-900 overflow-hidden">
                   <iframe
-                    src="/assets/CV/05-26-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf#toolbar=0&navpanes=0"
+                    src="/assets/CV/06-06-26/MJ%20VINZ%20CARLOS%20VILLARAIZ(with%20projects).pdf#toolbar=0&navpanes=0"
                     className="w-full h-full border-none"
                     title="PDF Viewer"
                   />
