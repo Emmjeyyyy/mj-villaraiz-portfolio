@@ -18,8 +18,29 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "MJ Villaraiz",
+  metadataBase: new URL('https://mjvillaraiz.dev'),
+  title: "MJ Villaraiz | Creative Developer & 3D Designer",
   description: "A showcase of creative development, 3D experiences, and modern web applications by MJ VINZ CARLOS VILLARAIZ.",
+  keywords: ["MJ Villaraiz", "Creative Developer", "3D Designer", "Web Developer", "Frontend Developer", "React", "Next.js", "Portfolio"],
+  openGraph: {
+    title: "MJ Villaraiz | Creative Developer",
+    description: "A showcase of creative development, 3D experiences, and modern web applications by MJ VINZ CARLOS VILLARAIZ.",
+    url: 'https://mjvillaraiz.dev',
+    siteName: 'MJ Villaraiz Portfolio',
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 import SmoothScroll from "@/components/SmoothScroll";
