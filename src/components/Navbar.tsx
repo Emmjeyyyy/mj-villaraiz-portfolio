@@ -52,7 +52,7 @@ export default function Navbar({ isLoading }: { isLoading: boolean }) {
           {!isLoading && (
             <motion.img
               layoutId="main-logo"
-              src="/assets/svg%20icons/MJLOGO%20noBG.svg"
+              src="/assets/svg%20icons/MJLOGO%20noBG%20new.svg"
               alt="MJ Logo"
               className="w-11 h-11 object-contain"
               transition={{

@@ -47,7 +47,7 @@ export default function Loader({ onComplete }: LoaderProps) {
       >
         <motion.img
           layoutId="main-logo"
-          src="/assets/svg%20icons/MJLOGO%20noBG.svg"
+          src="/assets/svg%20icons/MJLOGO%20noBG%20new.svg"
           alt="Loading..."
           className="w-24 h-24 object-contain"
         />
