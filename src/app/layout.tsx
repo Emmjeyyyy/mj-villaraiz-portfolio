@@ -20,11 +20,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://mjvillaraiz.dev'),
   title: "MJ Villaraiz | Creative Developer & 3D Designer",
-  description: "A showcase of creative development, 3D experiences, and modern web applications by MJ VINZ CARLOS VILLARAIZ.",
+  description: "A showcase of creative development, 3D experiences, and modern web applications.",
   keywords: ["MJ Villaraiz", "Creative Developer", "3D Designer", "Web Developer", "Frontend Developer", "React", "Next.js", "Portfolio"],
   openGraph: {
     title: "MJ Villaraiz | Creative Developer",
-    description: "A showcase of creative development, 3D experiences, and modern web applications by MJ VINZ CARLOS VILLARAIZ.",
+    description: "A showcase of creative development, 3D experiences, and modern web applications.",
     url: 'https://mjvillaraiz.dev',
     siteName: 'MJ Villaraiz Portfolio',
     locale: 'en_US',
