@@ -12,6 +12,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+
   {
     id: 1,
     title: "OUTCOMEX",
@@ -141,7 +142,7 @@ export const projects: Project[] = [
     images: ["svg-printer.png"],
   },
   {
-    id: 19,
+    id: 7,
     title: "TEKTON",
     description:
       "An AI-powered interface for generating high-fidelity user interface components and conceptual design variations based on natural language prompts.",
@@ -154,7 +155,7 @@ export const projects: Project[] = [
     images: ["tekton.png"],
   },
   {
-    id: 7,
+    id: 8,
     title: "KANJI TERMINAL",
     description:
       "A terminal-themed application for learning Japanese Kanji through spaced repetition and proficiency exam simulations.",
@@ -167,7 +168,7 @@ export const projects: Project[] = [
     images: ["kanji-terminal.png", "kanji-terminal2.png", "kanji-terminal3.png"],
   },
   {
-    id: 8,
+    id: 9,
     title: "KANABLITZ",
     description:
       "A fast-paced web application for learning and practicing Japanese Hiragana and Katakana.",
@@ -180,7 +181,7 @@ export const projects: Project[] = [
     images: ["kanablitz.png", "kanablitz2.png"],
   },
   {
-    id: 9,
+    id: 10,
     title: "GITHUB STATS",
     description:
       "A statistics generator that provides dynamic and customizable SVG cards for GitHub profile READMEs.",
@@ -193,7 +194,7 @@ export const projects: Project[] = [
     images: ["github-stats.png"],
   },
   {
-    id: 10,
+    id: 11,
     title: "ANIME DIRECTORY",
     description:
       "A platform for browsing anime series and managing personal watchlists with real-time data synchronization.",
@@ -212,7 +213,7 @@ export const projects: Project[] = [
     images: ["asd.png", "asd2.png", "asd3.png"],
   },
   {
-    id: 11,
+    id: 12,
     title: "INTERDIMENSIONAL CODEX",
     description:
       "A comprehensive web encyclopedia for exploring characters, locations, and episodes from the Rick and Morty universe.",
@@ -225,7 +226,7 @@ export const projects: Project[] = [
     images: ["inter1.png"],
   },
   {
-    id: 12,
+    id: 13,
     title: "GIGAVRY",
     description:
       "A web application for aggregating and discovering free-to-play games and active gaming giveaways.",
@@ -244,7 +245,27 @@ export const projects: Project[] = [
     images: ["gigavry1.png", "gigavry2.png"],
   },
   {
-    id: 13,
+    id: 14,
+    title: "INVOKER GAME",
+    description:
+      "A 3D typing and spell-casting game inspired by Dota 2's Invoker, featuring real-time spell combinations and audio effects.",
+    techStack: [
+      "React",
+      "TypeScript",
+      "Three.js",
+      "Zustand",
+      "Tailwind CSS",
+      "Vite",
+    ],
+    type: "3D GAME",
+    tag: "Interactive",
+    url: "https://invokergame.vercel.app",
+    imageFolder: "INVOKER-GAME",
+    imageCount: 5,
+    images: ["invokergame1.png", "invokergame2.png", "invokergame3.png", "invokergame4.png", "invokergame5.png"],
+  },
+  {
+    id: 15,
     title: "DOTA TERMINAL",
     description:
       "A terminal-themed web application for viewing Dota 2 player statistics and match history.",
@@ -257,7 +278,7 @@ export const projects: Project[] = [
     images: ["dota1.png", "dota2.png", "dota3.png"],
   },
   {
-    id: 14,
+    id: 16,
     title: "ROR2 SAVE EDITOR",
     description:
       "Web-based save editor for Risk of Rain 2, allowing quick unlocks for survivors and loadouts, with support for all DLCs (Alloyed Collective).",
@@ -270,7 +291,7 @@ export const projects: Project[] = [
     images: ["ror2-1.png", "ror2-2.png", "ror2-3.png", "ror2-4.png", "ror2-5.png"],
   },
   {
-    id: 15,
+    id: 17,
     title: "TIC TAC TOE",
     description:
       "A real-time multiplayer Tic-Tac-Toe game using web sockets for synchronized gameplay.",
@@ -283,7 +304,7 @@ export const projects: Project[] = [
     images: ["tic1.png", "tic2.png"],
   },
   {
-    id: 16,
+    id: 18,
     title: "BLOOD ECHOES",
     description:
       "A roguelite dungeon crawler game featuring procedural progression and combat mechanics.",
@@ -296,7 +317,7 @@ export const projects: Project[] = [
     images: ["blood1.png"],
   },
   {
-    id: 17,
+    id: 19,
     title: "NEON SURVIVOR",
     description: "",
     techStack: ["TypeScript", "React", "Tailwind CSS", "Vite",],
@@ -308,7 +329,7 @@ export const projects: Project[] = [
     images: ["neon1.png", "neon2.png", "neon3.png"],
   },
   {
-    id: 18,
+    id: 20,
     title: "DODGE MASTER",
     description:
       "A Java-based 2D arcade game focused on wave-based survival and dodging enemy patterns, developed during my second year of college.",
@@ -325,7 +346,7 @@ export const projects: Project[] = [
 // Projects intentionally hidden from the public gallery
 export const hiddenProjects: Project[] = [
   {
-    id: 20,
+    id: 21,
     title: "BABY Z INVITATION",
     description:
       "A digital invitation system for managing event guests and real-time RSVP responses.",
